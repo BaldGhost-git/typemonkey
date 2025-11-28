@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:typingapp/features/texts/views/typing_screen.dart';
+import 'package:typingapp/features/texts/presentation/views/typing_screen.dart';
 
 void main() {
   runApp(ProviderScope(child: const MainApp()));
@@ -11,6 +12,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: TypingScreen());
+    return MaterialApp(
+      debugShowCheckedModeBanner: kDebugMode,
+      home: TypingScreen(),
+    );
   }
 }
