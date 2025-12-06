@@ -4,14 +4,6 @@ import 'package:typingapp/features/texts/domain/text.dart';
 
 part 'texts_controller.g.dart';
 
-class TypingTrainerState {
-  final TextTyping currentText;
-  int wpm = 0;
-  String currentTyped = '';
-
-  TypingTrainerState({required this.currentText});
-}
-
 @riverpod
 Future<TextTyping> getText(Ref ref) async {
   final string = await File('assets/strings/lipsum.txt').readAsString();
@@ -21,31 +13,20 @@ Future<TextTyping> getText(Ref ref) async {
 @Riverpod()
 class TypingTrainerViewModel extends _$TypingTrainerViewModel {
   @override
-  Future<TypingTrainerState> build() async {
+  Future<TextTyping> build() async {
     final text = await ref.watch(getTextProvider.future);
-    return TypingTrainerState(currentText: text);
+    return text;
   }
 
-  // void userTyped(String key) {
-  //   state.requireValue.currentTyped += key;
-  //   print(state.requireValue.currentTyped);
-  // }
-
-  void typedOnChanged(String value) {
-    if (state.requireValue.currentTyped.isEmpty && value.isEmpty) return;
-    state.requireValue.currentTyped = value;
-    final lastChar = value.substring(value.length - 1);
-    // state.requireValue.currentText.typed(lastChar);
-    // state = state;
+  void typed(String value) {
+    state = state.whenData((current) => current.typed(value));
   }
 
   void spacePressed() {
-    state.requireValue.currentText.nextWord();
-    state = state;
+    state = state.whenData((current) => current.nextWord());
   }
 
-  // void backspacePressed() {
-  //   state.requireValue.currentText.delete();
-  //   state = state;
-  // }
+  void backspacePressed() {
+    state = state.whenData((current) => current.delete());
+  }
 }

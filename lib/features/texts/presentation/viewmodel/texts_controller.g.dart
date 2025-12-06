@@ -51,7 +51,7 @@ String _$getTextHash() => r'01ee57613703f7b653e19a121e800161efeaee01';
 const typingTrainerViewModelProvider = TypingTrainerViewModelProvider._();
 
 final class TypingTrainerViewModelProvider
-    extends $AsyncNotifierProvider<TypingTrainerViewModel, TypingTrainerState> {
+    extends $AsyncNotifierProvider<TypingTrainerViewModel, TextTyping> {
   const TypingTrainerViewModelProvider._()
     : super(
         from: null,
@@ -72,22 +72,20 @@ final class TypingTrainerViewModelProvider
 }
 
 String _$typingTrainerViewModelHash() =>
-    r'c34503cc14ef7d3df1259b9b0b363873e173e5f9';
+    r'14dddda88a1abe03ff3da2524babbdd9de056498';
 
-abstract class _$TypingTrainerViewModel
-    extends $AsyncNotifier<TypingTrainerState> {
-  FutureOr<TypingTrainerState> build();
+abstract class _$TypingTrainerViewModel extends $AsyncNotifier<TextTyping> {
+  FutureOr<TextTyping> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref =
-        this.ref as $Ref<AsyncValue<TypingTrainerState>, TypingTrainerState>;
+    final ref = this.ref as $Ref<AsyncValue<TextTyping>, TextTyping>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<TypingTrainerState>, TypingTrainerState>,
-              AsyncValue<TypingTrainerState>,
+              AnyNotifier<AsyncValue<TextTyping>, TextTyping>,
+              AsyncValue<TextTyping>,
               Object?,
               Object?
             >;
