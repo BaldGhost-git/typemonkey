@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:typingapp/features/texts/domain/text.dart';
+import 'package:typingapp/features/texts/domain/word.dart';
 import 'package:typingapp/features/texts/presentation/viewmodel/texts_controller.dart';
-import 'package:gap/gap.dart';
 
 class TypingScreen extends ConsumerStatefulWidget {
   const TypingScreen({super.key});
@@ -19,7 +20,6 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _focusNode = FocusNode();
     _controller = TextEditingController();
@@ -27,7 +27,6 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _focusNode.dispose();
     _controller.dispose();
     super.dispose();
@@ -35,7 +34,7 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final vm = ref.watch(typingTrainerViewModelProvider.notifier);
+    final vm = ref.read(typingTrainerViewModelProvider.notifier);
     final typingState = ref.watch(typingTrainerViewModelProvider);
     return Scaffold(
       body: Center(
@@ -50,71 +49,96 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    // RichText(
-                    //   maxLines: 3,
-                    //   overflow: TextOverflow.clip,
-                    //   text: TextSpan(
-                    //     style: GoogleFonts.jetBrainsMono(fontSize: 30),
-                    //     children: state.currentText.words.map((word) {
-                    //       final color = switch (word.currentCharState) {
-                    //         CharState.untyped => Colors.black45,
-                    //         CharState.correct => Colors.yellow,
-                    //         CharState.incorrect => Colors.red,
-                    //       };
-                    //       return TextSpan(
-                    //         text: '${word.word} ',
-                    //         style: TextStyle(color: color),
-                    //       );
-                    //     }).toList(),
-                    //   ),
-                    // ),
-                    Shortcuts(
-                      shortcuts: const <ShortcutActivator, Intent>{
-                        SingleActivator(LogicalKeyboardKey.backspace):
-                            BackspaceIntent(),
-                        SingleActivator(LogicalKeyboardKey.space):
-                            NextWordIntent(),
+                    RichText(
+                      maxLines: 3,
+                      overflow: TextOverflow.clip,
+                      text: buildText(state),
+                    ),
+                    Focus(
+                      onKeyEvent: (node, event) {
+                        if (event is KeyDownEvent) {
+                          if (event.logicalKey == LogicalKeyboardKey.space) {
+                            vm.spacePressed();
+                          } else if (event.logicalKey ==
+                              LogicalKeyboardKey.backspace) {
+                            vm.backspacePressed();
+                          } else {
+                            final ch = event.character;
+                            if (ch != null && ch.length == 1) {
+                              vm.typed(ch);
+                            }
+                          }
+                        }
+                        return KeyEventResult.ignored;
                       },
-                      child: Actions(
-                        actions: <Type, Action<Intent>>{
-                          BackspaceIntent: CallbackAction<BackspaceIntent>(
-                            onInvoke: (intent) => null,
-                          ),
-                          NextWordIntent: CallbackAction<NextWordIntent>(
-                            onInvoke: (intent) => vm.spacePressed(),
-                          ),
-                        },
-                        child: EditableText(
-                          maxLines: 3,
-                          controller: _controller,
-                          focusNode: _focusNode,
-                          autofocus: true,
-                          style: GoogleFonts.jetBrainsMono(
-                            color: Colors.transparent,
-                            fontSize: 30,
-                          ),
-                          cursorColor: Colors.red,
-                          backgroundCursorColor: Colors.orange,
-                          onChanged: (value) {
-                            vm.typedOnChanged(value);
-                          },
+                      child: EditableText(
+                        maxLines: 3,
+                        controller: _controller,
+                        focusNode: _focusNode,
+                        autofocus: true,
+                        style: GoogleFonts.jetBrainsMono(
+                          color: Colors.transparent,
+                          fontSize: 30,
                         ),
+                        cursorColor: Colors.transparent,
+                        backgroundCursorColor: Colors.transparent,
                       ),
                     ),
                   ],
                 ),
               ),
-              error: (error, stackTrace) => Text('data'),
+              error: (error, stackTrace) => Text('Error: $error'),
               loading: () => CircularProgressIndicator.adaptive(),
             ),
-            // Gap(20),
-            // TextField(
-            //   style: GoogleFonts.jetBrainsMono(fontSize: 30),
-            //   decoration: InputDecoration(border: OutlineInputBorder()),
-            // ),
+            Gap(20),
+            Text(_controller.text, style: TextStyle(fontSize: 20)),
           ],
         ),
       ),
+    );
+  }
+
+  TextSpan buildText(TextTyping state) {
+    return TextSpan(
+      style: GoogleFonts.jetBrainsMono(fontSize: 30),
+      children: state.words.indexed.map((element) {
+        final (index, word) = element;
+        final isUnderline =
+            (state.currentWordIndex > index) &&
+            (!word.isWordCorrect || !word.isWordDone);
+        return TextSpan(
+          style: TextStyle(
+            color: Colors.amber,
+            decoration: isUnderline ? TextDecoration.underline : null,
+          ),
+          children: word.charState.indexed.map((charState) {
+            final charPointer = charState.$1;
+            final stateLength = word.charState.length - 1;
+            final color = switch (charState.$2) {
+              CharState.untyped => Colors.white30,
+              CharState.correct => Colors.green,
+              CharState.incorrect => Colors.red,
+            };
+            return TextSpan(
+              children: [
+                if (state.currentWordIndex == index &&
+                    charPointer == word.currentCharIndex + 1)
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.baseline,
+                    baseline: TextBaseline.alphabetic,
+                    child: Container(height: 30, width: 10, color: Colors.red),
+                  ),
+                TextSpan(
+                  text: charPointer < stateLength
+                      ? word.word[charPointer]
+                      : '${word.word[charPointer]} ',
+                ),
+              ],
+              style: TextStyle(color: color),
+            );
+          }).toList(),
+        );
+      }).toList(),
     );
   }
 }
