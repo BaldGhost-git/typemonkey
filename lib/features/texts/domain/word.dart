@@ -68,13 +68,16 @@ class Word with _$Word {
     );
   }
 
-  String get currentChar =>
-      currentCharIndex < 0 ? word[0] : word[currentCharIndex];
+  // String get currentChar =>
+  //     currentCharIndex < 0 ? word[0] : word[currentCharIndex];
 
   CharState get currentCharState =>
       currentCharIndex < 0 ? charState[0] : charState[currentCharIndex];
 
+  // Is the user typed the word until the end?
   bool get isWordDone => realWordLength - 1 == currentCharIndex;
+
+  // Is the user typed everything correctly?
   bool get isWordCorrect =>
       charState.every((state) => state == CharState.correct);
 }

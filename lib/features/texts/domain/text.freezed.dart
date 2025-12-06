@@ -14,9 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TextTyping {
 
- List<Word> get words; int get currentWordIndex;// true: Word is incorrect or incomplete, and to be underlined if user go to the next word
-// false: Word is correct and complete, and not underlined if user go to the next word
- List<bool> get wordsIncompleteness;
+ List<Word> get words; int get currentWordIndex;
 /// Create a copy of TextTyping
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,16 +25,16 @@ $TextTypingCopyWith<TextTyping> get copyWith => _$TextTypingCopyWithImpl<TextTyp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TextTyping&&const DeepCollectionEquality().equals(other.words, words)&&(identical(other.currentWordIndex, currentWordIndex) || other.currentWordIndex == currentWordIndex)&&const DeepCollectionEquality().equals(other.wordsIncompleteness, wordsIncompleteness));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TextTyping&&const DeepCollectionEquality().equals(other.words, words)&&(identical(other.currentWordIndex, currentWordIndex) || other.currentWordIndex == currentWordIndex));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(words),currentWordIndex,const DeepCollectionEquality().hash(wordsIncompleteness));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(words),currentWordIndex);
 
 @override
 String toString() {
-  return 'TextTyping(words: $words, currentWordIndex: $currentWordIndex, wordsIncompleteness: $wordsIncompleteness)';
+  return 'TextTyping(words: $words, currentWordIndex: $currentWordIndex)';
 }
 
 
@@ -47,7 +45,7 @@ abstract mixin class $TextTypingCopyWith<$Res>  {
   factory $TextTypingCopyWith(TextTyping value, $Res Function(TextTyping) _then) = _$TextTypingCopyWithImpl;
 @useResult
 $Res call({
- List<Word> words, int currentWordIndex, List<bool> wordsIncompleteness
+ List<Word> words, int currentWordIndex
 });
 
 
@@ -64,12 +62,11 @@ class _$TextTypingCopyWithImpl<$Res>
 
 /// Create a copy of TextTyping
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? words = null,Object? currentWordIndex = null,Object? wordsIncompleteness = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? words = null,Object? currentWordIndex = null,}) {
   return _then(TextTyping(
 words: null == words ? _self.words : words // ignore: cast_nullable_to_non_nullable
 as List<Word>,currentWordIndex: null == currentWordIndex ? _self.currentWordIndex : currentWordIndex // ignore: cast_nullable_to_non_nullable
-as int,wordsIncompleteness: null == wordsIncompleteness ? _self.wordsIncompleteness : wordsIncompleteness // ignore: cast_nullable_to_non_nullable
-as List<bool>,
+as int,
   ));
 }
 

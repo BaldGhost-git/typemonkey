@@ -10,29 +10,15 @@ class TextTyping with _$TextTyping {
   @override
   final int currentWordIndex;
 
-  // true: Word is incorrect or incomplete, and to be underlined if user go to the next word
-  // false: Word is correct and complete, and not underlined if user go to the next word
-  @override
-  final List<bool> wordsIncompleteness;
-
   Word get currentWord => words[currentWordIndex];
-  bool get isCurrentWordIncomplete => wordsIncompleteness[currentWordIndex];
   Word? get prevWord =>
       currentWordIndex - 1 < 0 ? null : words[currentWordIndex - 1];
 
-  const TextTyping({
-    required this.words,
-    required this.currentWordIndex,
-    required this.wordsIncompleteness,
-  });
+  const TextTyping({required this.words, required this.currentWordIndex});
 
   factory TextTyping.fromString(String string) {
     final words = string.split(' ').map((word) => Word.initial(word)).toList();
-    return TextTyping(
-      words: words,
-      currentWordIndex: 0,
-      wordsIncompleteness: List.filled(words.length, false),
-    );
+    return TextTyping(words: words, currentWordIndex: 0);
   }
 
   TextTyping typed(String char) {
@@ -42,22 +28,23 @@ class TextTyping with _$TextTyping {
     return copyWith(words: newList);
   }
 
-  // void delete() {
-  //   currentWord.deleted();
-  // }
+  TextTyping delete() {
+    final newWord = currentWord.deleted();
+    if (newWord == currentWord) {
+      return _previousWord();
+    }
+    final newList = [...words]..[currentWordIndex] = newWord;
+    return copyWith(words: newList);
+  }
 
   TextTyping nextWord() {
     if (!currentWord.isWordCorrect || !currentWord.isWordDone) {
-      final newWordsState = [...wordsIncompleteness]..[currentWordIndex] = true;
-      return copyWith(
-        currentWordIndex: currentWordIndex + 1,
-        wordsIncompleteness: newWordsState,
-      );
+      return copyWith(currentWordIndex: currentWordIndex + 1);
     }
     return copyWith(currentWordIndex: currentWordIndex + 1);
   }
 
-  TextTyping previousWord() {
+  TextTyping _previousWord() {
     if (prevWord == null) return this;
     if (prevWord!.isWordCorrect && prevWord!.isWordDone) return this;
     return copyWith(currentWordIndex: currentWordIndex - 1);
