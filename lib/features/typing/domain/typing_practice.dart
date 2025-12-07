@@ -3,6 +3,26 @@ import 'package:typingapp/features/typing/domain/text.dart';
 
 part 'typing_practice.freezed.dart';
 
+enum TestType { time, word }
+
+enum TimeConfig {
+  ten(10),
+  fifteen(15),
+  twenty(20);
+
+  final int duration;
+  const TimeConfig(this.duration);
+}
+
+enum TextConfig {
+  ten(10),
+  twenty(20),
+  thirty(30);
+
+  final int textLength;
+  const TextConfig(this.textLength);
+}
+
 @freezed
 class TypingTrainerState with _$TypingTrainerState {
   @override
@@ -19,6 +39,8 @@ class TypingTrainerState with _$TypingTrainerState {
   final bool isRunning;
   @override
   final bool isFinished;
+  @override
+  final TestType type;
 
   TypingTrainerState({
     this.testDuration,
@@ -28,17 +50,11 @@ class TypingTrainerState with _$TypingTrainerState {
     this.elapsedTime,
     required this.isRunning,
     required this.isFinished,
+    required this.type,
   });
 
   TypingTrainerState start() {
-    return TypingTrainerState(
-      testDuration: testDuration,
-      textLength: textLength,
-      wpm: 0,
-      accuracy: 0,
-      isRunning: true,
-      isFinished: false,
-    );
+    return copyWith(isFinished: false, isRunning: true);
   }
 
   TypingTrainerState stop(TextTyping textState, {int? duration}) {

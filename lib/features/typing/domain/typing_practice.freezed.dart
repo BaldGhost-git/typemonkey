@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TypingTrainerState {
 
- int? get testDuration; int? get textLength; double get wpm; double get accuracy; int? get elapsedTime; bool get isRunning; bool get isFinished;
+ int? get testDuration; int? get textLength; double get wpm; double get accuracy; int? get elapsedTime; bool get isRunning; bool get isFinished; TestType get type;
 /// Create a copy of TypingTrainerState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TypingTrainerStateCopyWith<TypingTrainerState> get copyWith => _$TypingTrainerS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TypingTrainerState&&(identical(other.testDuration, testDuration) || other.testDuration == testDuration)&&(identical(other.textLength, textLength) || other.textLength == textLength)&&(identical(other.wpm, wpm) || other.wpm == wpm)&&(identical(other.accuracy, accuracy) || other.accuracy == accuracy)&&(identical(other.elapsedTime, elapsedTime) || other.elapsedTime == elapsedTime)&&(identical(other.isRunning, isRunning) || other.isRunning == isRunning)&&(identical(other.isFinished, isFinished) || other.isFinished == isFinished));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TypingTrainerState&&(identical(other.testDuration, testDuration) || other.testDuration == testDuration)&&(identical(other.textLength, textLength) || other.textLength == textLength)&&(identical(other.wpm, wpm) || other.wpm == wpm)&&(identical(other.accuracy, accuracy) || other.accuracy == accuracy)&&(identical(other.elapsedTime, elapsedTime) || other.elapsedTime == elapsedTime)&&(identical(other.isRunning, isRunning) || other.isRunning == isRunning)&&(identical(other.isFinished, isFinished) || other.isFinished == isFinished)&&(identical(other.type, type) || other.type == type));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,testDuration,textLength,wpm,accuracy,elapsedTime,isRunning,isFinished);
+int get hashCode => Object.hash(runtimeType,testDuration,textLength,wpm,accuracy,elapsedTime,isRunning,isFinished,type);
 
 @override
 String toString() {
-  return 'TypingTrainerState(testDuration: $testDuration, textLength: $textLength, wpm: $wpm, accuracy: $accuracy, elapsedTime: $elapsedTime, isRunning: $isRunning, isFinished: $isFinished)';
+  return 'TypingTrainerState(testDuration: $testDuration, textLength: $textLength, wpm: $wpm, accuracy: $accuracy, elapsedTime: $elapsedTime, isRunning: $isRunning, isFinished: $isFinished, type: $type)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TypingTrainerStateCopyWith<$Res>  {
   factory $TypingTrainerStateCopyWith(TypingTrainerState value, $Res Function(TypingTrainerState) _then) = _$TypingTrainerStateCopyWithImpl;
 @useResult
 $Res call({
- int? testDuration, int? textLength, double wpm, double accuracy, int? elapsedTime, bool isRunning, bool isFinished
+ int? testDuration, int? textLength, double wpm, double accuracy, int? elapsedTime, bool isRunning, bool isFinished, TestType type
 });
 
 
@@ -62,7 +62,7 @@ class _$TypingTrainerStateCopyWithImpl<$Res>
 
 /// Create a copy of TypingTrainerState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? testDuration = freezed,Object? textLength = freezed,Object? wpm = null,Object? accuracy = null,Object? elapsedTime = freezed,Object? isRunning = null,Object? isFinished = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? testDuration = freezed,Object? textLength = freezed,Object? wpm = null,Object? accuracy = null,Object? elapsedTime = freezed,Object? isRunning = null,Object? isFinished = null,Object? type = null,}) {
   return _then(TypingTrainerState(
 testDuration: freezed == testDuration ? _self.testDuration : testDuration // ignore: cast_nullable_to_non_nullable
 as int?,textLength: freezed == textLength ? _self.textLength : textLength // ignore: cast_nullable_to_non_nullable
@@ -71,7 +71,8 @@ as double,accuracy: null == accuracy ? _self.accuracy : accuracy // ignore: cast
 as double,elapsedTime: freezed == elapsedTime ? _self.elapsedTime : elapsedTime // ignore: cast_nullable_to_non_nullable
 as int?,isRunning: null == isRunning ? _self.isRunning : isRunning // ignore: cast_nullable_to_non_nullable
 as bool,isFinished: null == isFinished ? _self.isFinished : isFinished // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as TestType,
   ));
 }
 
