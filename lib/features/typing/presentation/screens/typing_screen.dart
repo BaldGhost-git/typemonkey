@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:typingapp/features/typing/application/texts_controller.dart';
+import 'package:typingapp/features/typing/domain/typing_practice.dart';
 import 'package:typingapp/features/typing/presentation/widgets/test_configuration.dart';
 import 'package:typingapp/features/typing/presentation/widgets/typing_practice_widget.dart';
 
@@ -44,14 +45,20 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                ':${trainerState.elapsedTime ?? trainerState.testDuration}',
+                                trainerState.type == TestType.time
+                                    ? ':${trainerState.elapsedTime}'
+                                    : '${typingState.requireValue.currentWordIndex}/${trainerState.textLength}',
                                 style: GoogleFonts.jetBrainsMono(fontSize: 25),
                               ),
                             ),
                           ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: TypingPractice(state: state, viewModel: vm),
+                          child: TypingPractice(
+                            textState: state,
+                            viewModel: vm,
+                            trainerState: trainerState,
+                          ),
                         ),
                       ],
                     ),

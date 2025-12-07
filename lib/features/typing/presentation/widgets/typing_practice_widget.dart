@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:typingapp/features/typing/application/texts_controller.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
+import 'package:typingapp/features/typing/domain/typing_practice.dart';
 import 'package:typingapp/features/typing/domain/word.dart';
 import 'package:typingapp/features/typing/presentation/widgets/custom_caret.dart';
 
 class TypingPractice extends StatefulWidget {
-  final TextTyping state;
+  final TextTyping textState;
+  final TypingTrainerState trainerState;
   final TypingTrainerViewModel viewModel;
   const TypingPractice({
-    required this.state,
-    required this.viewModel,
     super.key,
+    required this.textState,
+    required this.viewModel,
+    required this.trainerState,
   });
 
   @override
@@ -48,7 +50,7 @@ class _TypingPracticeState extends State<TypingPractice> {
           RichText(
             maxLines: 3,
             overflow: TextOverflow.clip,
-            text: buildText(widget.state),
+            text: buildText(widget.textState, widget.trainerState),
           ),
           Focus(
             onKeyEvent: (node, event) {
@@ -84,10 +86,13 @@ class _TypingPracticeState extends State<TypingPractice> {
     );
   }
 
-  TextSpan buildText(TextTyping state) {
+  TextSpan buildText(TextTyping state, TypingTrainerState trainerState) {
+    final shownWords = trainerState.type == TestType.word
+        ? state.words.take(trainerState.textLength!)
+        : state.words;
     return TextSpan(
       style: GoogleFonts.jetBrainsMono(fontSize: 30),
-      children: state.words.indexed.map((element) {
+      children: shownWords.indexed.map((element) {
         final (index, word) = element;
         final isUnderline =
             (state.currentWordIndex > index) &&

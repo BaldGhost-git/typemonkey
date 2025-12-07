@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomCaret extends StatefulWidget {
+  const CustomCaret({super.key});
+
   @override
   _MyBlinkingButtonState createState() => _MyBlinkingButtonState();
 }

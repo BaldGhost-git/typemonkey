@@ -64,7 +64,7 @@ class TypingTrainerState with _$TypingTrainerState {
     final correctCharTyped =
         textState.totalCorrectChar + textState.currentWordIndex;
     final allCharTyped = textState.totalTypedChar + textState.currentWordIndex;
-    final wpm = (correctCharTyped / 5) / (duration ?? testDuration! / 60);
+    final wpm = (correctCharTyped / 5) / ((duration ?? testDuration!) / 60);
     final accuracy = (correctCharTyped / allCharTyped) * 100;
     return copyWith(
       wpm: wpm,

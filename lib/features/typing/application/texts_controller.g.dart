@@ -81,7 +81,7 @@ final class TypingTrainerStateViewModelProvider
 }
 
 String _$typingTrainerStateViewModelHash() =>
-    r'5df3bf544199d526b7b4385a987ac2cf1d9e4368';
+    r'fe023054ebbd45bb60d072cdb6efa89475d873c9';
 
 abstract class _$TypingTrainerStateViewModel
     extends $Notifier<TypingTrainerState> {
@@ -128,7 +128,7 @@ final class TypingTrainerViewModelProvider
 }
 
 String _$typingTrainerViewModelHash() =>
-    r'94e9e7c3f08b992dc5e0fa26b4b80fc067ed9315';
+    r'93282a6397a56f54b63bd277390acd7aba9b76f4';
 
 abstract class _$TypingTrainerViewModel extends $AsyncNotifier<TextTyping> {
   FutureOr<TextTyping> build();

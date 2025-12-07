@@ -15,6 +15,7 @@ Future<TextTyping> getText(Ref ref) async {
 @Riverpod()
 class TypingTrainerStateViewModel extends _$TypingTrainerStateViewModel {
   Timer? _timer;
+  DateTime? _startedAt;
 
   @override
   TypingTrainerState build() {
@@ -56,9 +57,13 @@ class TypingTrainerStateViewModel extends _$TypingTrainerStateViewModel {
     });
   }
 
-  void _startByText() {}
+  void _startByText() {
+    _startedAt = DateTime.now();
+  }
 
   void resetTest() {
+    _timer?.cancel();
+    _startedAt = null;
     ref.invalidateSelf();
     ref.invalidate(typingTrainerViewModelProvider);
   }
@@ -75,6 +80,20 @@ class TypingTrainerStateViewModel extends _$TypingTrainerStateViewModel {
         state = state.copyWith(textLength: i);
     }
   }
+
+  void onTextProgress(TextTyping text) {
+    if (state.type != TestType.word || !state.isRunning) return;
+    if (state.textLength == null) return;
+
+    final wordsTyped = text.currentWordIndex;
+    final isCompleted = text.currentWord.isWordCorrect;
+    if (wordsTyped >= state.textLength! ||
+        (wordsTyped + 1 == state.textLength! && isCompleted)) {
+      final seconds = DateTime.now().difference(_startedAt!).inSeconds;
+      // `duration` is in minutes, to match your stop() formula.
+      state = state.stop(text, duration: seconds);
+    }
+  }
 }
 
 @Riverpod()
@@ -87,14 +106,25 @@ class TypingTrainerViewModel extends _$TypingTrainerViewModel {
 
   void typed(String value) {
     final trainer = ref.read(typingTrainerStateViewModelProvider);
+    final trainerVm = ref.read(typingTrainerStateViewModelProvider.notifier);
     if (!trainer.isRunning) {
       ref.read(typingTrainerStateViewModelProvider.notifier).startTest();
     }
-    state = state.whenData((current) => current.typed(value));
+    state = state.whenData((current) {
+      final updated = current.typed(value);
+      trainerVm.onTextProgress(updated);
+      return updated;
+    });
   }
 
   void spacePressed() {
-    state = state.whenData((current) => current.nextWord());
+    final trainerVm = ref.read(typingTrainerStateViewModelProvider.notifier);
+
+    state = state.whenData((current) {
+      final updated = current.nextWord();
+      trainerVm.onTextProgress(updated);
+      return updated;
+    });
   }
 
   void backspacePressed() {
