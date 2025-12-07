@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:typingapp/features/texts/domain/word.dart';
+import 'package:typingapp/features/typing/domain/word.dart';
 
 void main() {
   group('Testing word functions', () {
@@ -53,6 +53,26 @@ void main() {
       expect(newWord.currentCharState, CharState.incorrect);
       expect(newWord.word, 'Hers');
     });
+
+    test(
+      'User typed extra characters then typed backspace should delete extra characters',
+      () {
+        //Arrange
+        final word = Word.initial(str);
+
+        //Act
+        final newWord = word
+            .typed('H')
+            .typed('e')
+            .typed('r')
+            .typed('s')
+            .deleted();
+
+        //Assert
+        expect(newWord.word, str);
+        expect(newWord.charState.length, str.length);
+      },
+    );
 
     test('User pressing backspace when user not typing anything', () {
       //Arrange
