@@ -81,7 +81,7 @@ final class TypingTrainerStateViewModelProvider
 }
 
 String _$typingTrainerStateViewModelHash() =>
-    r'263ecf94c5960e163777e86d5bea8f80e90c094f';
+    r'5df3bf544199d526b7b4385a987ac2cf1d9e4368';
 
 abstract class _$TypingTrainerStateViewModel
     extends $Notifier<TypingTrainerState> {

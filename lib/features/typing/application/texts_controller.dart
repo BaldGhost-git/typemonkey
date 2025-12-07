@@ -19,22 +19,24 @@ class TypingTrainerStateViewModel extends _$TypingTrainerStateViewModel {
   @override
   TypingTrainerState build() {
     return TypingTrainerState(
-      testDuration: 15,
+      textLength: TextConfig.twenty.textLength,
+      testDuration: TimeConfig.fifteen.duration,
       wpm: 0,
       accuracy: 0,
       isRunning: false,
       isFinished: false,
+      type: TestType.time,
     );
   }
 
   void startTest() {
     state = state.start();
-    if (state.testDuration != null)
-      _startByTime();
-    else if (state.textLength != null)
-      _startByText();
-    else
-      throw 'Must set test type first';
+    switch (state.type) {
+      case TestType.time:
+        _startByTime();
+      case TestType.word:
+        _startByText();
+    }
   }
 
   void _startByTime() {
@@ -55,6 +57,24 @@ class TypingTrainerStateViewModel extends _$TypingTrainerStateViewModel {
   }
 
   void _startByText() {}
+
+  void resetTest() {
+    ref.invalidateSelf();
+    ref.invalidate(typingTrainerViewModelProvider);
+  }
+
+  void setTypeTest(TestType type) {
+    state = state.copyWith(type: type);
+  }
+
+  void setTypeConfig(int i) {
+    switch (state.type) {
+      case TestType.time:
+        state = state.copyWith(testDuration: i);
+      case TestType.word:
+        state = state.copyWith(textLength: i);
+    }
+  }
 }
 
 @Riverpod()
