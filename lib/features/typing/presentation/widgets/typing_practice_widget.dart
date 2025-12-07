@@ -42,7 +42,6 @@ class _TypingPracticeState extends State<TypingPractice> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 300,
-      width: 1200,
       child: Stack(
         fit: StackFit.expand,
         children: [
