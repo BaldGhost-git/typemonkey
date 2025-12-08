@@ -55,4 +55,10 @@ class TextTyping with _$TextTyping {
     if (prevWord!.isWordCorrect && prevWord!.isWordDone) return this;
     return copyWith(currentWordIndex: currentWordIndex - 1);
   }
+
+  TextTyping scramble() {
+    final newWords = [...words];
+    newWords.shuffle();
+    return copyWith(words: newWords);
+  }
 }

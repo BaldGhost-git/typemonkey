@@ -24,6 +24,17 @@ enum TextConfig {
   const TextConfig(this.textLength);
 }
 
+enum LanguageConfig {
+  english('english'),
+  english1k('english_1k'),
+  english5k('english_5k'),
+  indonesian('indonesian'),
+  indonesian1k('indonesian_1k');
+
+  final String language;
+  const LanguageConfig(this.language);
+}
+
 @freezed
 class TypingTrainerState with _$TypingTrainerState {
   @override

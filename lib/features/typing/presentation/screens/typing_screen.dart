@@ -19,6 +19,8 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
   Widget build(BuildContext context) {
     final vm = ref.read(typingTrainerViewModelProvider.notifier);
     final configVm = ref.read(typingTrainerStateViewModelProvider.notifier);
+    final languageVm = ref.read(languageConfigViewModelProvider.notifier);
+    final language = ref.watch(languageConfigViewModelProvider);
     final typingState = ref.watch(typingTrainerViewModelProvider);
     final trainerState = ref.watch(typingTrainerStateViewModelProvider);
     return Scaffold(
@@ -33,6 +35,31 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                     configVm: configVm,
                   ),
                   Gap(50),
+                  if (!trainerState.isRunning)
+                    Align(
+                      alignment: Alignment.center,
+                      child: DropdownMenu(
+                        textStyle: GoogleFonts.jetBrainsMono(fontSize: 13),
+                        initialSelection: language,
+                        onSelected: (language) =>
+                            languageVm.setLanguage(language!),
+                        dropdownMenuEntries: LanguageConfig.values
+                            .map(
+                              (value) => DropdownMenuEntry(
+                                value: value,
+                                labelWidget: Text(
+                                  value.name,
+                                  style: GoogleFonts.jetBrainsMono(
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                label: value.name,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  Gap(10),
                   typingState.when(
                     data: (state) => Column(
                       mainAxisAlignment: MainAxisAlignment.center,

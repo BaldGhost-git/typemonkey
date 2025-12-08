@@ -10,7 +10,7 @@ part of 'texts_controller.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getText)
-const getTextProvider = GetTextProvider._();
+const getTextProvider = GetTextFamily._();
 
 final class GetTextProvider
     extends
@@ -20,19 +20,26 @@ final class GetTextProvider
           FutureOr<TextTyping>
         >
     with $FutureModifier<TextTyping>, $FutureProvider<TextTyping> {
-  const GetTextProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'getTextProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  const GetTextProvider._({
+    required GetTextFamily super.from,
+    required LanguageConfig super.argument,
+  }) : super(
+         retry: null,
+         name: r'getTextProvider',
+         isAutoDispose: false,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$getTextHash();
+
+  @override
+  String toString() {
+    return r'getTextProvider'
+        ''
+        '($argument)';
+  }
 
   @$internal
   @override
@@ -41,11 +48,94 @@ final class GetTextProvider
 
   @override
   FutureOr<TextTyping> create(Ref ref) {
-    return getText(ref);
+    final argument = this.argument as LanguageConfig;
+    return getText(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetTextProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
-String _$getTextHash() => r'01ee57613703f7b653e19a121e800161efeaee01';
+String _$getTextHash() => r'3746beb4372fa9d8ef16e31ddfd4590366a208dc';
+
+final class GetTextFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<TextTyping>, LanguageConfig> {
+  const GetTextFamily._()
+    : super(
+        retry: null,
+        name: r'getTextProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: false,
+      );
+
+  GetTextProvider call(LanguageConfig language) =>
+      GetTextProvider._(argument: language, from: this);
+
+  @override
+  String toString() => r'getTextProvider';
+}
+
+@ProviderFor(LanguageConfigViewModel)
+const languageConfigViewModelProvider = LanguageConfigViewModelProvider._();
+
+final class LanguageConfigViewModelProvider
+    extends $NotifierProvider<LanguageConfigViewModel, LanguageConfig> {
+  const LanguageConfigViewModelProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'languageConfigViewModelProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$languageConfigViewModelHash();
+
+  @$internal
+  @override
+  LanguageConfigViewModel create() => LanguageConfigViewModel();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(LanguageConfig value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<LanguageConfig>(value),
+    );
+  }
+}
+
+String _$languageConfigViewModelHash() =>
+    r'2a1eff7f31b2fa853e40159082832c5d4125e003';
+
+abstract class _$LanguageConfigViewModel extends $Notifier<LanguageConfig> {
+  LanguageConfig build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build();
+    final ref = this.ref as $Ref<LanguageConfig, LanguageConfig>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<LanguageConfig, LanguageConfig>,
+              LanguageConfig,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
+}
 
 @ProviderFor(TypingTrainerStateViewModel)
 const typingTrainerStateViewModelProvider =
@@ -81,7 +171,7 @@ final class TypingTrainerStateViewModelProvider
 }
 
 String _$typingTrainerStateViewModelHash() =>
-    r'fe023054ebbd45bb60d072cdb6efa89475d873c9';
+    r'4ba3be9da178252d4ee8c1c7fb40155dbed4ac4f';
 
 abstract class _$TypingTrainerStateViewModel
     extends $Notifier<TypingTrainerState> {
@@ -128,7 +218,7 @@ final class TypingTrainerViewModelProvider
 }
 
 String _$typingTrainerViewModelHash() =>
-    r'93282a6397a56f54b63bd277390acd7aba9b76f4';
+    r'acf0864913cbaaf40ae60d267e0e96fadb258b02';
 
 abstract class _$TypingTrainerViewModel extends $AsyncNotifier<TextTyping> {
   FutureOr<TextTyping> build();

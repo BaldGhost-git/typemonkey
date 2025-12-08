@@ -1,15 +1,27 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:typingapp/features/typing/data/typing_repository.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
 
 part 'texts_controller.g.dart';
 
-@riverpod
-Future<TextTyping> getText(Ref ref) async {
-  final string = await File('assets/strings/lipsum.txt').readAsString();
-  return TextTyping.fromString(string);
+@Riverpod(keepAlive: true)
+Future<TextTyping> getText(Ref ref, LanguageConfig language) async {
+  final repo = ref.read(typingRepositoryProvider('https://monkeytype.com'));
+  return repo.getNewText(languages: language.language);
+}
+
+@Riverpod(keepAlive: true)
+class LanguageConfigViewModel extends _$LanguageConfigViewModel {
+  @override
+  LanguageConfig build() {
+    return LanguageConfig.english;
+  }
+
+  void setLanguage(LanguageConfig language) {
+    state = language;
+  }
 }
 
 @Riverpod()
@@ -69,10 +81,12 @@ class TypingTrainerStateViewModel extends _$TypingTrainerStateViewModel {
   }
 
   void setTypeTest(TestType type) {
+    ref.read(typingTrainerViewModelProvider.notifier).scramble();
     state = state.copyWith(type: type);
   }
 
   void setTypeConfig(int i) {
+    ref.read(typingTrainerViewModelProvider.notifier).scramble();
     switch (state.type) {
       case TestType.time:
         state = state.copyWith(testDuration: i);
@@ -100,8 +114,9 @@ class TypingTrainerStateViewModel extends _$TypingTrainerStateViewModel {
 class TypingTrainerViewModel extends _$TypingTrainerViewModel {
   @override
   Future<TextTyping> build() async {
-    final text = await ref.watch(getTextProvider.future);
-    return text;
+    final language = ref.watch(languageConfigViewModelProvider);
+    final text = await ref.watch(getTextProvider(language).future);
+    return text.scramble();
   }
 
   void typed(String value) {
@@ -129,5 +144,9 @@ class TypingTrainerViewModel extends _$TypingTrainerViewModel {
 
   void backspacePressed() {
     state = state.whenData((current) => current.delete());
+  }
+
+  void scramble() {
+    state = state.whenData((current) => current.scramble());
   }
 }

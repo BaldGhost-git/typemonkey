@@ -113,5 +113,10 @@ void main() {
 
       expect(thirdTest.currentWordIndex, 0);
     });
+
+    test('Make sure words order can be scrambled', () {
+      final text = TextTyping.fromString(str);
+      expect(text.scramble() != text, true);
+    });
   });
 }
