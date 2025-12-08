@@ -43,14 +43,14 @@ class _TypingPracticeState extends State<TypingPractice> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: 125,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          RichText(
-            maxLines: 3,
-            overflow: TextOverflow.clip,
-            text: buildText(widget.textState, widget.trainerState),
+          SingleChildScrollView(
+            child: RichText(
+              text: buildText(widget.textState, widget.trainerState),
+            ),
           ),
           Focus(
             onKeyEvent: (node, event) {

@@ -18,6 +18,16 @@ class _MyBlinkingButtonState extends State<CustomCaret>
       duration: Duration(milliseconds: 200),
     );
     _animationController.repeat(reverse: true);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Scrollable.of(context) != null) {
+        Scrollable.ensureVisible(
+          context,
+          alignment: 0.5,
+          duration: Duration(milliseconds: 120),
+        );
+      }
+    });
     super.initState();
   }
 
