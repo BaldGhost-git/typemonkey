@@ -21,7 +21,7 @@ class TypingTrainerStateViewModel extends _$TypingTrainerStateViewModel {
   TypingTrainerState build() {
     return TypingTrainerState(
       textLength: TextConfig.twenty.textLength,
-      testDuration: TimeConfig.fifteen.duration,
+      testDuration: TimeConfig.twenty.duration,
       wpm: 0,
       accuracy: 0,
       isRunning: false,

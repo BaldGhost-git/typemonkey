@@ -7,8 +7,9 @@ enum TestType { time, word }
 
 enum TimeConfig {
   ten(10),
-  fifteen(15),
-  twenty(20);
+  twenty(20),
+  thirty(30),
+  sixty(60);
 
   final int duration;
   const TimeConfig(this.duration);
