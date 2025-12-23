@@ -27,70 +27,73 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
       appBar: AppBar(title: Text('typemonkey', style: GoogleFonts.lato())),
       body: Center(
         child: !trainerState.isFinished
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+            ? Stack(
+                fit: StackFit.expand,
+                alignment: Alignment.center,
+                textDirection: TextDirection.ltr,
                 children: [
-                  TestConfiguration(
-                    trainerState: trainerState,
-                    configVm: configVm,
+                  Positioned(
+                    top: 30,
+                    child: TestConfiguration(
+                      trainerState: trainerState,
+                      configVm: configVm,
+                    ),
                   ),
-                  Gap(50),
-                  if (!trainerState.isRunning)
+                  // Gap(50),
+                  if (trainerState.isRunning)
                     Align(
-                      alignment: Alignment.center,
-                      child: DropdownMenu(
-                        textStyle: GoogleFonts.jetBrainsMono(fontSize: 13),
-                        initialSelection: language,
-                        onSelected: (language) =>
-                            languageVm.setLanguage(language!),
-                        dropdownMenuEntries: LanguageConfig.values
-                            .map(
-                              (value) => DropdownMenuEntry(
-                                value: value,
-                                labelWidget: Text(
-                                  value.name,
-                                  style: GoogleFonts.jetBrainsMono(
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                label: value.name,
-                              ),
-                            )
-                            .toList(),
+                      alignment: Alignment(-0.96, -0.3),
+                      child: Text(
+                        trainerState.type == TestType.time
+                            ? ':${trainerState.elapsedTime}'
+                            : '${typingState.requireValue.currentWordIndex}/${trainerState.textLength}',
+                        style: GoogleFonts.jetBrainsMono(fontSize: 25),
                       ),
                     ),
-                  Gap(10),
-                  typingState.when(
-                    data: (state) => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  Positioned.fill(
+                    top: 200,
+                    bottom: 100,
+                    child: Column(
                       children: [
-                        if (trainerState.isRunning)
-                          Padding(
+                        DropdownMenu(
+                          textStyle: GoogleFonts.jetBrainsMono(fontSize: 13),
+                          initialSelection: language,
+                          onSelected: (language) =>
+                              languageVm.setLanguage(language!),
+                          dropdownMenuEntries: LanguageConfig.values
+                              .map(
+                                (value) => DropdownMenuEntry(
+                                  value: value,
+                                  labelWidget: Text(
+                                    value.name,
+                                    style: GoogleFonts.jetBrainsMono(
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  label: value.name,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                        Gap(15),
+                        typingState.when(
+                          data: (state) => Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 25.0,
                             ),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                trainerState.type == TestType.time
-                                    ? ':${trainerState.elapsedTime}'
-                                    : '${typingState.requireValue.currentWordIndex}/${trainerState.textLength}',
-                                style: GoogleFonts.jetBrainsMono(fontSize: 25),
-                              ),
+                            child: TypingPractice(
+                              textState: state,
+                              viewModel: vm,
+                              trainerState: trainerState,
                             ),
                           ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: TypingPractice(
-                            textState: state,
-                            viewModel: vm,
-                            trainerState: trainerState,
+                          error: (error, stackTrace) => Text('Error: $error'),
+                          loading: () => Center(
+                            child: CircularProgressIndicator.adaptive(),
                           ),
                         ),
                       ],
                     ),
-                    error: (error, stackTrace) => Text('Error: $error'),
-                    loading: () => CircularProgressIndicator.adaptive(),
                   ),
                 ],
               )
