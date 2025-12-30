@@ -116,7 +116,8 @@ void main() {
 
     test('Make sure words order can be scrambled', () {
       final text = TextTyping.fromString(str);
-      expect(text.scramble() != text, true);
+      final scrambledText = text.scramble();
+      expect(scrambledText != text, true);
     });
   });
 }

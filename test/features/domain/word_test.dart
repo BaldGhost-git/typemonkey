@@ -11,14 +11,23 @@ void main() {
 
       // Act
       final newWord = word.typed('H');
-      final completedWord = newWord.typed('e').typed('r');
 
       // Assert
       expect(newWord.currentCharState, CharState.correct);
       expect(newWord.isWordDone, false);
       expect(newWord.isWordCorrect, false);
-      expect(completedWord.isWordDone, true);
-      expect(completedWord.isWordCorrect, true);
+    });
+
+    test('User completed the word correctly', () {
+      // Arrange
+      final word = Word.initial(str);
+
+      // Act
+      final newWord = word.typed('H').typed('e').typed('r');
+
+      // Assert
+      expect(newWord.isWordDone, true);
+      expect(newWord.isWordCorrect, true);
     });
 
     test('User typed incorrect char', () {
@@ -30,6 +39,18 @@ void main() {
 
       // Assert
       expect(newWord.currentCharState, CharState.incorrect);
+    });
+
+    test('User completed the word incorrectly', () {
+      // Arrange
+      final word = Word.initial(str);
+
+      // Act
+      final newWord = word.typed('A').typed('e').typed('r');
+
+      // Assert
+      expect(newWord.isWordDone, true);
+      expect(newWord.isWordCorrect, false);
     });
 
     test('User deleted a char', () {
@@ -51,6 +72,8 @@ void main() {
 
       //Assert
       expect(newWord.currentCharState, CharState.incorrect);
+      expect(newWord.realWordLength, lessThan(newWord.countTypedChar));
+      expect(newWord.realWordLength, lessThan(newWord.word.length));
       expect(newWord.word, 'Hers');
     });
 
