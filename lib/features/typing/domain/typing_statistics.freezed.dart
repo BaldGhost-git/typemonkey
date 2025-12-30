@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'typing_practice.dart';
+part of 'typing_statistics.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,40 +12,40 @@ part of 'typing_practice.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$TypingTrainerState {
+mixin _$TypingStatistics {
 
- int? get testDuration; int? get textLength; List<TypingStatistics>? get stats; double? get elapsedTime; bool get isRunning; bool get isFinished; TestType get type;
-/// Create a copy of TypingTrainerState
+ int get correctChars; int get incorrectChars; double? get elapsedTimeInSeconds; DateTime? get timestamp;
+/// Create a copy of TypingStatistics
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TypingTrainerStateCopyWith<TypingTrainerState> get copyWith => _$TypingTrainerStateCopyWithImpl<TypingTrainerState>(this as TypingTrainerState, _$identity);
+$TypingStatisticsCopyWith<TypingStatistics> get copyWith => _$TypingStatisticsCopyWithImpl<TypingStatistics>(this as TypingStatistics, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TypingTrainerState&&(identical(other.testDuration, testDuration) || other.testDuration == testDuration)&&(identical(other.textLength, textLength) || other.textLength == textLength)&&const DeepCollectionEquality().equals(other.stats, stats)&&(identical(other.elapsedTime, elapsedTime) || other.elapsedTime == elapsedTime)&&(identical(other.isRunning, isRunning) || other.isRunning == isRunning)&&(identical(other.isFinished, isFinished) || other.isFinished == isFinished)&&(identical(other.type, type) || other.type == type));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TypingStatistics&&(identical(other.correctChars, correctChars) || other.correctChars == correctChars)&&(identical(other.incorrectChars, incorrectChars) || other.incorrectChars == incorrectChars)&&(identical(other.elapsedTimeInSeconds, elapsedTimeInSeconds) || other.elapsedTimeInSeconds == elapsedTimeInSeconds)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,testDuration,textLength,const DeepCollectionEquality().hash(stats),elapsedTime,isRunning,isFinished,type);
+int get hashCode => Object.hash(runtimeType,correctChars,incorrectChars,elapsedTimeInSeconds,timestamp);
 
 @override
 String toString() {
-  return 'TypingTrainerState(testDuration: $testDuration, textLength: $textLength, stats: $stats, elapsedTime: $elapsedTime, isRunning: $isRunning, isFinished: $isFinished, type: $type)';
+  return 'TypingStatistics(correctChars: $correctChars, incorrectChars: $incorrectChars, elapsedTimeInSeconds: $elapsedTimeInSeconds, timestamp: $timestamp)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TypingTrainerStateCopyWith<$Res>  {
-  factory $TypingTrainerStateCopyWith(TypingTrainerState value, $Res Function(TypingTrainerState) _then) = _$TypingTrainerStateCopyWithImpl;
+abstract mixin class $TypingStatisticsCopyWith<$Res>  {
+  factory $TypingStatisticsCopyWith(TypingStatistics value, $Res Function(TypingStatistics) _then) = _$TypingStatisticsCopyWithImpl;
 @useResult
 $Res call({
- int? testDuration, int? textLength, List<TypingStatistics>? stats, double? elapsedTime, bool isRunning, bool isFinished, TestType type
+ int correctChars, int incorrectChars, double? elapsedTimeInSeconds, DateTime? timestamp
 });
 
 
@@ -53,33 +53,30 @@ $Res call({
 
 }
 /// @nodoc
-class _$TypingTrainerStateCopyWithImpl<$Res>
-    implements $TypingTrainerStateCopyWith<$Res> {
-  _$TypingTrainerStateCopyWithImpl(this._self, this._then);
+class _$TypingStatisticsCopyWithImpl<$Res>
+    implements $TypingStatisticsCopyWith<$Res> {
+  _$TypingStatisticsCopyWithImpl(this._self, this._then);
 
-  final TypingTrainerState _self;
-  final $Res Function(TypingTrainerState) _then;
+  final TypingStatistics _self;
+  final $Res Function(TypingStatistics) _then;
 
-/// Create a copy of TypingTrainerState
+/// Create a copy of TypingStatistics
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? testDuration = freezed,Object? textLength = freezed,Object? stats = freezed,Object? elapsedTime = freezed,Object? isRunning = null,Object? isFinished = null,Object? type = null,}) {
-  return _then(TypingTrainerState(
-testDuration: freezed == testDuration ? _self.testDuration : testDuration // ignore: cast_nullable_to_non_nullable
-as int?,textLength: freezed == textLength ? _self.textLength : textLength // ignore: cast_nullable_to_non_nullable
-as int?,stats: freezed == stats ? _self.stats : stats // ignore: cast_nullable_to_non_nullable
-as List<TypingStatistics>?,elapsedTime: freezed == elapsedTime ? _self.elapsedTime : elapsedTime // ignore: cast_nullable_to_non_nullable
-as double?,isRunning: null == isRunning ? _self.isRunning : isRunning // ignore: cast_nullable_to_non_nullable
-as bool,isFinished: null == isFinished ? _self.isFinished : isFinished // ignore: cast_nullable_to_non_nullable
-as bool,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TestType,
+@pragma('vm:prefer-inline') @override $Res call({Object? correctChars = null,Object? incorrectChars = null,Object? elapsedTimeInSeconds = freezed,Object? timestamp = freezed,}) {
+  return _then(TypingStatistics(
+correctChars: null == correctChars ? _self.correctChars : correctChars // ignore: cast_nullable_to_non_nullable
+as int,incorrectChars: null == incorrectChars ? _self.incorrectChars : incorrectChars // ignore: cast_nullable_to_non_nullable
+as int,elapsedTimeInSeconds: freezed == elapsedTimeInSeconds ? _self.elapsedTimeInSeconds : elapsedTimeInSeconds // ignore: cast_nullable_to_non_nullable
+as double?,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [TypingTrainerState].
-extension TypingTrainerStatePatterns on TypingTrainerState {
+/// Adds pattern-matching-related methods to [TypingStatistics].
+extension TypingStatisticsPatterns on TypingStatistics {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:

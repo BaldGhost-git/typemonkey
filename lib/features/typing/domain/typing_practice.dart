@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
+import 'package:typingapp/features/typing/domain/typing_statistics.dart';
 
 part 'typing_practice.freezed.dart';
 
@@ -42,11 +43,9 @@ class TypingTrainerState with _$TypingTrainerState {
   @override
   final int? textLength;
   @override
-  final double wpm;
+  final List<TypingStatistics>? stats;
   @override
-  final double accuracy;
-  @override
-  final int? elapsedTime;
+  final double? elapsedTime;
   @override
   final bool isRunning;
   @override
@@ -57,8 +56,7 @@ class TypingTrainerState with _$TypingTrainerState {
   TypingTrainerState({
     this.testDuration,
     this.textLength,
-    required this.wpm,
-    required this.accuracy,
+    this.stats,
     this.elapsedTime,
     required this.isRunning,
     required this.isFinished,
@@ -69,20 +67,7 @@ class TypingTrainerState with _$TypingTrainerState {
     return copyWith(isFinished: false, isRunning: true);
   }
 
-  TypingTrainerState stop(TextTyping textState, {int? duration}) {
-    // WPM = (characters_typed / 5) / (time_taken_in_seconds / 60)
-    // accuracy = (correct_characters / total_typed_characters) × 100
-
-    final correctCharTyped =
-        textState.totalCorrectChar + textState.currentWordIndex;
-    final allCharTyped = textState.totalTypedChar + textState.currentWordIndex;
-    final wpm = (correctCharTyped / 5) / ((duration ?? testDuration!) / 60);
-    final accuracy = (correctCharTyped / allCharTyped) * 100;
-    return copyWith(
-      wpm: wpm,
-      accuracy: accuracy,
-      isRunning: false,
-      isFinished: true,
-    );
+  TypingTrainerState stop() {
+    return copyWith(isFinished: true, isRunning: false);
   }
 }
