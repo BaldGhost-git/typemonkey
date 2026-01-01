@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:typingapp/features/typing/application/texts_controller.dart';
+import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
 
 class TestConfiguration extends StatelessWidget {
@@ -10,7 +10,8 @@ class TestConfiguration extends StatelessWidget {
   });
 
   final TypingTrainerState trainerState;
-  final TypingTrainerStateViewModel configVm;
+  
+  final TypingTrainerViewModel configVm;
 
   @override
   Widget build(BuildContext context) {
