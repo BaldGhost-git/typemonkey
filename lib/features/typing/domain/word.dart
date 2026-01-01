@@ -82,6 +82,8 @@ class Word with _$Word {
   CharState get currentCharState =>
       currentCharIndex < 0 ? charState[0] : charState[currentCharIndex];
 
+  CharState? get prevCharState => currentCharIndex < 0 ? null : charState[currentCharIndex - 1];
+
   // Is the user typed the word until the end?
   bool get isWordDone => realWordLength - 1 == currentCharIndex;
 
