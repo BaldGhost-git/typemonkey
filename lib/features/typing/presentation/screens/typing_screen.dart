@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:typingapp/features/typing/application/texts_controller.dart';
+import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
+import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
 import 'package:typingapp/features/typing/presentation/widgets/test_configuration.dart';
 import 'package:typingapp/features/typing/presentation/widgets/typing_practice_widget.dart';
@@ -17,12 +18,11 @@ class TypingScreen extends ConsumerStatefulWidget {
 class _TypingScreenState extends ConsumerState<TypingScreen> {
   @override
   Widget build(BuildContext context) {
-    final vm = ref.read(typingTrainerViewModelProvider.notifier);
-    final configVm = ref.read(typingTrainerStateViewModelProvider.notifier);
+    final vm = ref.read(typingTextViewModelProvider.notifier);
+    final configVm = ref.read(typingTrainerViewModelProvider.notifier);
     final languageVm = ref.read(languageConfigViewModelProvider.notifier);
-    final language = ref.watch(languageConfigViewModelProvider);
-    final typingState = ref.watch(typingTrainerViewModelProvider);
-    final trainerState = ref.watch(typingTrainerStateViewModelProvider);
+    final textState = ref.watch(typingTextViewModelProvider);
+    final trainerState = ref.watch(typingTrainerViewModelProvider);
     return Scaffold(
       appBar: AppBar(title: Text('typemonkey', style: GoogleFonts.lato())),
       body: Center(
@@ -42,11 +42,11 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                   // Gap(50),
                   if (trainerState.isRunning)
                     Align(
-                      alignment: Alignment(-0.96, -0.3),
+                      alignment: Alignment(-0.97, -0.45),
                       child: Text(
                         trainerState.type == TestType.time
                             ? ':${trainerState.elapsedTime}'
-                            : '${typingState.requireValue.currentWordIndex}/${trainerState.textLength}',
+                            : '${textState.requireValue.currentWordIndex}/${trainerState.textLength}',
                         style: GoogleFonts.jetBrainsMono(fontSize: 25),
                       ),
                     ),
@@ -55,28 +55,37 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                     bottom: 100,
                     child: Column(
                       children: [
-                        DropdownMenu(
-                          textStyle: GoogleFonts.jetBrainsMono(fontSize: 13),
-                          initialSelection: language,
-                          onSelected: (language) =>
-                              languageVm.setLanguage(language!),
-                          dropdownMenuEntries: LanguageConfig.values
-                              .map(
-                                (value) => DropdownMenuEntry(
-                                  value: value,
-                                  labelWidget: Text(
-                                    value.name,
-                                    style: GoogleFonts.jetBrainsMono(
-                                      fontSize: 13,
+                        Consumer(
+                          builder: (context, ref, child) {
+                            final language = ref.watch(
+                              languageConfigViewModelProvider,
+                            );
+                            return DropdownMenu(
+                              textStyle: GoogleFonts.jetBrainsMono(
+                                fontSize: 13,
+                              ),
+                              initialSelection: language,
+                              onSelected: (language) =>
+                                  languageVm.setLanguage(language!),
+                              dropdownMenuEntries: LanguageConfig.values
+                                  .map(
+                                    (value) => DropdownMenuEntry(
+                                      value: value,
+                                      labelWidget: Text(
+                                        value.name,
+                                        style: GoogleFonts.jetBrainsMono(
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                      label: value.name,
                                     ),
-                                  ),
-                                  label: value.name,
-                                ),
-                              )
-                              .toList(),
+                                  )
+                                  .toList(),
+                            );
+                          },
                         ),
                         Gap(15),
-                        typingState.when(
+                        textState.when(
                           data: (state) => Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 25.0,
@@ -101,7 +110,7 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'WPM: ${trainerState.wpm.toStringAsFixed(2)}, Accuracy: ${trainerState.accuracy.toStringAsFixed(2)}%',
+                    trainerState.stats.toString(),
                   ),
                   Gap(20),
                   IconButton(
