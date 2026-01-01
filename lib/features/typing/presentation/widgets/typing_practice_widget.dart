@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:typingapp/features/typing/application/texts_controller.dart';
+import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
 import 'package:typingapp/features/typing/domain/word.dart';
@@ -10,7 +10,7 @@ import 'package:typingapp/features/typing/presentation/widgets/custom_caret.dart
 class TypingPractice extends StatefulWidget {
   final TextTyping textState;
   final TypingTrainerState trainerState;
-  final TypingTrainerViewModel viewModel;
+  final TypingTextViewModel viewModel;
   const TypingPractice({
     super.key,
     required this.textState,
