@@ -115,8 +115,15 @@ void main() {
     });
 
     test('Make sure words order can be scrambled', () {
+      final maxScramble = 3;
+      var i = 0;
       final text = TextTyping.fromString(str);
-      final scrambledText = text.scramble();
+      var scrambledText = text.scramble(); 
+
+      while (scrambledText == text && i < maxScramble) {
+        scrambledText = scrambledText.scramble();
+        i++;
+      }
       expect(scrambledText != text, true);
     });
   });
