@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:typingapp/features/typing/data/text_dto.dart';
@@ -25,8 +27,9 @@ class TypingRepository {
       final dtoData = TextDto.fromJson(response.data as Map<String, dynamic>);
       final data = dtoData.toEntity();
       return data;
-    } on DioException {
-      rethrow;
+    } on DioException catch (_) {
+      final string = await File('assets/strings/lipsum.txt').readAsString();
+      return TextTyping.fromString(string);
     }
   }
 }
