@@ -44,6 +44,9 @@ class TextTyping with _$TextTyping {
   }
 
   TextTyping nextWord() {
+    if (currentWordIndex + 1 >= words.length) {
+      return this; // Don't advance if already at the last word
+    }
     if (!currentWord.isWordCorrect || !currentWord.isWordDone) {
       return copyWith(currentWordIndex: currentWordIndex + 1);
     }
