@@ -86,31 +86,14 @@ void main() {
       // Arrange test config
       trainerVm.setTypeTest(TestType.word);
       trainerVm.setTypeConfig(testString.split(' ').length);
-      trainerVm.startTest();
 
-      // Arrange first test data
-      final textVm = container.read(typingTextViewModelProvider.notifier);
-      final currentText = container
-          .read(typingTextViewModelProvider)
-          .requireValue
-          .words
-          .map((e) => e.word)
-          .toList()
-          .join(' ');
-
-      // Assert the test is running
+      // Assert the test is not running
       final state = container.read(typingTrainerViewModelProvider);
-      expect(state.isRunning, true);
+      expect(state.isRunning, false);
       expect(state.isFinished, false);
 
-      // Simulate user typing
-      for (String char in currentText.split('')) {
-        if (char == ' ') {
-          textVm.spacePressed();
-          continue;
-        }
-        textVm.typed(char);
-      }
+      // Start test
+      simulateWordTest(container);
 
       // Final assert
       final finishedState = container.read(typingTrainerViewModelProvider);
