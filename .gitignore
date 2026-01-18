@@ -34,6 +34,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+*.g.dart
+*.freezed.dart
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -75,3 +77,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Windows related
+/windows/
