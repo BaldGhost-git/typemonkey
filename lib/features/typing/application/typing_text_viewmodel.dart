@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:typingapp/core/config/env.dart';
 import 'package:typingapp/features/typing/application/typing_statistics_viewmodel.dart';
 import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/data/typing_repository.dart';
@@ -9,7 +10,7 @@ part 'typing_text_viewmodel.g.dart';
 
 @Riverpod(keepAlive: true)
 Future<TextTyping> getText(Ref ref, LanguageConfig language) async {
-  final repo = ref.read(typingRepositoryProvider('https://api.cors.lol/?url=monkeytype.com'));
+  final repo = ref.read(typingRepositoryProvider(Env.wordApi));
   return repo.getNewText(languages: language.language);
 }
 
@@ -25,7 +26,9 @@ class TypingTextViewModel extends _$TypingTextViewModel {
   void typed(String value) {
     final newText = state.whenData((current) => current.typed(value));
     state = newText;
-    ref.read(typingStatisticsViewModelProvider.notifier).typed(newText.requireValue.currentWord.currentCharState);
+    ref
+        .read(typingStatisticsViewModelProvider.notifier)
+        .typed(newText.requireValue.currentWord.currentCharState);
   }
 
   void spacePressed() {

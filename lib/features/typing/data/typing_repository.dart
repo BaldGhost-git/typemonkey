@@ -21,9 +21,7 @@ class TypingRepository {
 
   Future<TextTyping> getNewText({String? languages}) async {
     try {
-      final response = await dio.get(
-        '/languages/${languages ?? 'english'}.json',
-      );
+      final response = await dio.get('/languages/${languages ?? 'english'}');
       final dtoData = TextDto.fromJson(response.data as Map<String, dynamic>);
       final data = dtoData.toEntity();
       return data;

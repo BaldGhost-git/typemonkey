@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:typingapp/core/config/env.dart';
+import 'package:typingapp/core/themes/themes.dart';
 import 'package:typingapp/features/typing/presentation/screens/typing_screen.dart';
 
 void main() {
@@ -13,8 +14,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
-      debugShowCheckedModeBanner: kDebugMode,
+      darkTheme: ThemeData(colorScheme: AppThemes.colorScheme),
+      debugShowCheckedModeBanner: Env.env != 'production',
       home: TypingScreen(),
     );
   }
