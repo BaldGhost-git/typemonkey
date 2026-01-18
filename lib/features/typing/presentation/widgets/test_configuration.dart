@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:typingapp/core/themes/sizes.dart';
 import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
 
@@ -10,7 +12,7 @@ class TestConfiguration extends StatelessWidget {
   });
 
   final TypingTrainerState trainerState;
-  
+
   final TypingTrainerViewModel configVm;
 
   @override
@@ -31,7 +33,7 @@ class TestConfiguration extends StatelessWidget {
             multiSelectionEnabled: false,
             onSelectionChanged: (value) => configVm.setTypeTest(value.first),
           ),
-        Divider(color: Colors.green, thickness: 10, indent: 10),
+        Gap(AppSizes.padBetweenWidgets),
         if (!trainerState.isRunning)
           SegmentedButton(
             segments: switch (trainerState.type) {

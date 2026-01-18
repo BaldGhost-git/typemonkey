@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:typingapp/core/themes/sizes.dart';
+import 'package:typingapp/core/themes/styles.dart';
+import 'package:typingapp/core/themes/themes.dart';
 import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
@@ -43,7 +45,7 @@ class _TypingPracticeState extends State<TypingPractice> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 125,
+      height: AppSizes.typingTextViewportHeight,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -73,9 +75,9 @@ class _TypingPracticeState extends State<TypingPractice> {
               controller: _controller,
               focusNode: _focusNode,
               autofocus: true,
-              style: GoogleFonts.jetBrainsMono(
+              style: AppStyles.primaryFont.copyWith(
                 color: Colors.transparent,
-                fontSize: 30,
+                fontSize: AppSizes.heading2,
               ),
               cursorColor: Colors.transparent,
               backgroundCursorColor: Colors.transparent,
@@ -91,7 +93,7 @@ class _TypingPracticeState extends State<TypingPractice> {
         ? state.words.take(trainerState.textLength!)
         : state.words;
     return TextSpan(
-      style: GoogleFonts.jetBrainsMono(fontSize: 30),
+      style: AppStyles.primaryHeading2,
       children: shownWords.indexed.map((element) {
         final (index, word) = element;
         final isUnderline =
@@ -99,16 +101,16 @@ class _TypingPracticeState extends State<TypingPractice> {
             (!word.isWordCorrect || !word.isWordDone);
         return TextSpan(
           style: TextStyle(
-            color: Colors.amber,
             decoration: isUnderline ? TextDecoration.underline : null,
+            decorationColor: AppThemes.colorScheme.error,
           ),
           children: word.word.split('').indexed.map((charState) {
             final charPointer = charState.$1;
             final stateLength = word.charState.length - 1;
             final color = switch (word.charState[charPointer]) {
-              CharState.untyped => Colors.white30,
-              CharState.correct => Colors.green,
-              CharState.incorrect => Colors.red,
+              CharState.untyped => AppThemes.colorScheme.primary.withAlpha(120),
+              CharState.correct => AppThemes.colorScheme.tertiary,
+              CharState.incorrect => AppThemes.colorScheme.error,
             };
             return TextSpan(
               children: [

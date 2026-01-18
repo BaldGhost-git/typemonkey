@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:typingapp/core/themes/sizes.dart';
+import 'package:typingapp/core/themes/themes.dart';
 
 class CustomCaret extends StatefulWidget {
   const CustomCaret({super.key});
@@ -20,13 +22,11 @@ class _MyBlinkingButtonState extends State<CustomCaret>
     _animationController.repeat(reverse: true);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (Scrollable.of(context) != null) {
-        Scrollable.ensureVisible(
-          context,
-          alignment: 0.5,
-          duration: Duration(milliseconds: 120),
-        );
-      }
+      Scrollable.ensureVisible(
+        context,
+        alignment: 0.5,
+        duration: Duration(milliseconds: 120),
+      );
     });
     super.initState();
   }
@@ -35,7 +35,11 @@ class _MyBlinkingButtonState extends State<CustomCaret>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _animationController,
-      child: Container(height: 30, width: 2, color: Colors.red),
+      child: Container(
+        height: AppSizes.caretHeight,
+        width: AppSizes.caretWidth,
+        color: AppThemes.accentColor,
+      ),
     );
   }
 

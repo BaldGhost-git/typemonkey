@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TypingStatistics {
 
- int get correctChars; int get incorrectChars; double? get elapsedTimeInSeconds; DateTime? get timestamp;
+ int get correctChars; int get incorrectChars; double get elapsedTimeInSeconds; DateTime? get timestamp;
 /// Create a copy of TypingStatistics
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $TypingStatisticsCopyWith<$Res>  {
   factory $TypingStatisticsCopyWith(TypingStatistics value, $Res Function(TypingStatistics) _then) = _$TypingStatisticsCopyWithImpl;
 @useResult
 $Res call({
- int correctChars, int incorrectChars, double? elapsedTimeInSeconds, DateTime? timestamp
+ int correctChars, int incorrectChars, double elapsedTimeInSeconds, DateTime? timestamp
 });
 
 
@@ -62,12 +62,12 @@ class _$TypingStatisticsCopyWithImpl<$Res>
 
 /// Create a copy of TypingStatistics
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? correctChars = null,Object? incorrectChars = null,Object? elapsedTimeInSeconds = freezed,Object? timestamp = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? correctChars = null,Object? incorrectChars = null,Object? elapsedTimeInSeconds = null,Object? timestamp = freezed,}) {
   return _then(TypingStatistics(
 correctChars: null == correctChars ? _self.correctChars : correctChars // ignore: cast_nullable_to_non_nullable
 as int,incorrectChars: null == incorrectChars ? _self.incorrectChars : incorrectChars // ignore: cast_nullable_to_non_nullable
-as int,elapsedTimeInSeconds: freezed == elapsedTimeInSeconds ? _self.elapsedTimeInSeconds : elapsedTimeInSeconds // ignore: cast_nullable_to_non_nullable
-as double?,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as int,elapsedTimeInSeconds: null == elapsedTimeInSeconds ? _self.elapsedTimeInSeconds : elapsedTimeInSeconds // ignore: cast_nullable_to_non_nullable
+as double,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }

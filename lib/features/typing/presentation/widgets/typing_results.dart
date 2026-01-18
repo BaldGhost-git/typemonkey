@@ -1,7 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:typingapp/core/themes/sizes.dart';
+import 'package:typingapp/core/themes/styles.dart';
 import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
 
@@ -14,7 +15,7 @@ class TypingResults extends StatelessWidget {
   LineChartBarData get wpmLine => LineChartBarData(
     dotData: FlDotData(show: false),
     color: Colors.green,
-    barWidth: 5,
+    barWidth: AppSizes.primaryBarWidth,
     isCurved: true,
     spots: state.stats!
         .map((stat) => FlSpot(stat.elapsedTimeInSeconds, stat.wpm))
@@ -23,9 +24,9 @@ class TypingResults extends StatelessWidget {
 
   LineChartBarData get rawWpmLine => LineChartBarData(
     dotData: FlDotData(show: false),
-    dashArray: [10, 10],
+    dashArray: AppSizes.primaryDashLine,
     color: Colors.green,
-    barWidth: 5,
+    barWidth: AppSizes.primaryBarWidth,
     isCurved: true,
     spots: state.stats!
         .map((stat) => FlSpot(stat.elapsedTimeInSeconds, stat.rawWpm))
@@ -35,7 +36,7 @@ class TypingResults extends StatelessWidget {
   LineChartBarData get accuracyLine => LineChartBarData(
     dotData: FlDotData(show: false),
     color: Colors.blue[100],
-    barWidth: 5,
+    barWidth: AppSizes.primaryBarWidth,
     isCurved: true,
     spots: state.stats!
         .map((stat) => FlSpot(stat.elapsedTimeInSeconds, stat.accuracy))
@@ -44,42 +45,32 @@ class TypingResults extends StatelessWidget {
 
   AxisTitles get leftTitle => AxisTitles(
     axisNameSize: 20,
-    axisNameWidget: Text(
-      'Words per minute',
-      style: GoogleFonts.jetBrainsMono(fontSize: 13),
-    ),
+    axisNameWidget: Text('Words per minute', style: AppStyles.chartTitle),
     sideTitles: SideTitles(
       maxIncluded: false,
       showTitles: true,
-      reservedSize: 35,
-      interval: 20,
+      reservedSize: AppSizes.chartTitleBoxSize,
+      interval: AppSizes.chartWpmInterval,
       getTitlesWidget: (value, meta) => SideTitleWidget(
         meta: meta,
-        child: Text(
-          value.toInt().toString(),
-          style: GoogleFonts.jetBrainsMono(fontSize: 12),
-        ),
+        child: Text(value.toInt().toString(), style: AppStyles.chartNumbers),
       ),
     ),
   );
 
   AxisTitles get bottomTitle => AxisTitles(
-    axisNameSize: 20,
-    axisNameWidget: Text(
-      'Duration',
-      style: GoogleFonts.jetBrainsMono(fontSize: 13),
-    ),
+    axisNameSize: AppSizes.chartTitleTextSize,
+    axisNameWidget: Text('Duration', style: AppStyles.chartTitle),
     sideTitles: SideTitles(
       maxIncluded: false,
       showTitles: true,
-      reservedSize: 35,
-      interval: 1,
+      reservedSize: AppSizes.chartTitleBoxSize,
+      interval: AppSizes.chartTimeInterval(
+        state.stats!.last.elapsedTimeInSeconds,
+      ),
       getTitlesWidget: (value, meta) => SideTitleWidget(
         meta: meta,
-        child: Text(
-          value.toInt().toString(),
-          style: GoogleFonts.jetBrainsMono(fontSize: 12),
-        ),
+        child: Text(value.toInt().toString(), style: AppStyles.chartNumbers),
       ),
     ),
   );
@@ -94,16 +85,16 @@ class TypingResults extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('wpm', style: GoogleFonts.jetBrainsMono(fontSize: 30)),
+            Text('wpm', style: AppStyles.primaryHeading2),
             Text(
               state.stats!.last.wpm.toStringAsFixed(1),
-              style: GoogleFonts.jetBrainsMono(fontSize: 50),
+              style: AppStyles.primaryHeading1,
             ),
             Gap(10),
-            Text('acc', style: GoogleFonts.jetBrainsMono(fontSize: 30)),
+            Text('acc', style: AppStyles.primaryHeading2),
             Text(
               '${state.stats!.last.accuracy.toStringAsFixed(0)}%',
-              style: GoogleFonts.jetBrainsMono(fontSize: 50),
+              style: AppStyles.primaryHeading1,
             ),
           ],
         ),
