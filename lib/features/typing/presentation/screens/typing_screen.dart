@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
 import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
+import 'package:typingapp/features/typing/presentation/widgets/typing_results.dart';
 import 'package:typingapp/features/typing/presentation/widgets/test_configuration.dart';
 import 'package:typingapp/features/typing/presentation/widgets/typing_practice_widget.dart';
 
@@ -106,19 +107,10 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                   ),
                 ],
               )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    trainerState.stats.toString(),
-                  ),
-                  Gap(20),
-                  IconButton(
-                    onPressed: configVm.resetTest,
-                    icon: Icon(Icons.replay),
-                  ),
-                ],
-              ),
+            : Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SizedBox(height: 300, child: TypingResults(state: trainerState, vm: configVm)),
+            ),
       ),
     );
   }
