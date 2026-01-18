@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:typingapp/features/typing/data/text_dto.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
-import 'package:typingapp/services/dio_config.dart';
+import 'package:typingapp/core/config/dio_config.dart';
 
 part 'typing_repository.g.dart';
 
