@@ -102,15 +102,17 @@ class _TypingPracticeState extends State<TypingPractice> {
         return TextSpan(
           style: TextStyle(
             decoration: isUnderline ? TextDecoration.underline : null,
-            decorationColor: AppThemes.colorScheme.error,
+            decorationColor: AppThemes.colorSchemeDark.error,
           ),
           children: word.word.split('').indexed.map((charState) {
             final charPointer = charState.$1;
             final stateLength = word.charState.length - 1;
             final color = switch (word.charState[charPointer]) {
-              CharState.untyped => AppThemes.colorScheme.primary.withAlpha(120),
-              CharState.correct => AppThemes.colorScheme.tertiary,
-              CharState.incorrect => AppThemes.colorScheme.error,
+              CharState.untyped => AppThemes.colorSchemeDark.primary.withAlpha(
+                120,
+              ),
+              CharState.correct => AppThemes.colorSchemeDark.tertiary,
+              CharState.incorrect => AppThemes.colorSchemeDark.error,
             };
             return TextSpan(
               children: [

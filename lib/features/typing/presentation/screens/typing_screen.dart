@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:typingapp/core/themes/sizes.dart';
 import 'package:typingapp/core/themes/styles.dart';
+import 'package:typingapp/features/settings/application/settings_viewmodel.dart';
 import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
 import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
@@ -40,12 +41,41 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                     alignment: Alignment.center,
                     textDirection: TextDirection.ltr,
                     children: [
-                      Positioned(
-                        top: AppSizes.testConfigTopPos,
-                        child: TestConfiguration(
-                          trainerState: trainerState,
-                          configVm: configVm,
+                      Padding(
+                        padding: EdgeInsetsGeometry.directional(
+                          top: AppSizes.testConfigTopPos,
                         ),
+                        child: Align(
+                          alignment: AlignmentDirectional.topCenter,
+                          child: TestConfiguration(
+                            trainerState: trainerState,
+                            configVm: configVm,
+                          ),
+                        ),
+                      ),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final settingsVm = ref.read(
+                            settingsViewModelProvider.notifier,
+                          );
+                          final settings = ref.watch(settingsViewModelProvider);
+                          return Padding(
+                            padding: EdgeInsetsGeometry.directional(
+                              top: AppSizes.testConfigTopPos,
+                            ),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton(
+                                onPressed: settingsVm.flipScheme,
+                                icon: Icon(
+                                  settings.isDarkMode
+                                      ? Icons.dark_mode
+                                      : Icons.light_mode,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       Align(
                         alignment: Alignment.center,

@@ -38,7 +38,7 @@ class _MyBlinkingButtonState extends State<CustomCaret>
       child: Container(
         height: AppSizes.caretHeight,
         width: AppSizes.caretWidth,
-        color: AppThemes.accentColor,
+        color: AppThemes.accentColorDark,
       ),
     );
   }
