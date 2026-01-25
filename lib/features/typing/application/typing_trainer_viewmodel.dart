@@ -1,22 +1,31 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:typingapp/core/config/env.dart';
 import 'package:typingapp/features/typing/application/typing_statistics_viewmodel.dart';
 import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
+import 'package:typingapp/features/typing/data/typing_repository.dart';
 import 'package:typingapp/features/typing/domain/typing_practice.dart';
 import 'package:typingapp/features/typing/domain/typing_statistics.dart';
 
 part 'typing_trainer_viewmodel.g.dart';
 
 @Riverpod(keepAlive: true)
+Future<LanguageConfig> getLanguageOpts(Ref ref) {
+  final repo = ref.read(typingRepositoryProvider(Env.wordApi));
+  return repo.getLanguageOptions();
+}
+
+@Riverpod(keepAlive: true)
 class LanguageConfigViewModel extends _$LanguageConfigViewModel {
   @override
-  LanguageConfig build() {
-    return LanguageConfig.english;
+  Future<LanguageConfig> build() async {
+    final data = await ref.watch(getLanguageOptsProvider.future);
+    return data;
   }
 
-  void setLanguage(LanguageConfig language) {
-    state = language;
+  void setLanguage(String language) {
+    state = AsyncData(state.requireValue.copyWith(current: language));
   }
 }
 

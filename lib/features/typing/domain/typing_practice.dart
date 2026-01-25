@@ -24,15 +24,12 @@ enum TextConfig {
   const TextConfig(this.textLength);
 }
 
-enum LanguageConfig {
-  english('english'),
-  english1k('english_1k'),
-  english5k('english_5k'),
-  indonesian('indonesian'),
-  indonesian1k('indonesian_1k');
-
-  final String language;
-  const LanguageConfig(this.language);
+@freezed
+abstract class LanguageConfig with _$LanguageConfig {
+  const factory LanguageConfig({
+    required List<String> options,
+    required String current,
+  }) = _LanguageConfig;
 }
 
 @freezed

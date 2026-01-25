@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:typingapp/features/typing/data/text_dto.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
 import 'package:typingapp/core/config/dio_config.dart';
+import 'package:typingapp/features/typing/domain/typing_practice.dart';
 
 part 'typing_repository.g.dart';
 
@@ -28,6 +29,19 @@ class TypingRepository {
     } on DioException catch (_) {
       final string = await File('assets/strings/lipsum.txt').readAsString();
       return TextTyping.fromString(string);
+    }
+  }
+
+  Future<LanguageConfig> getLanguageOptions() async {
+    try {
+      final response = await dio.get('/languages');
+      final data = response.data as Map<String, dynamic>;
+      final opts = (data['option'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList();
+      return LanguageConfig(options: opts, current: opts[0]);
+    } on DioException catch (_) {
+      return LanguageConfig(options: ['english'], current: 'english');
     }
   }
 }

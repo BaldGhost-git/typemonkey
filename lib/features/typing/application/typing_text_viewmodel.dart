@@ -4,22 +4,21 @@ import 'package:typingapp/features/typing/application/typing_statistics_viewmode
 import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/data/typing_repository.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
-import 'package:typingapp/features/typing/domain/typing_practice.dart';
 
 part 'typing_text_viewmodel.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<TextTyping> getText(Ref ref, LanguageConfig language) async {
+Future<TextTyping> getText(Ref ref, String language) async {
   final repo = ref.read(typingRepositoryProvider(Env.wordApi));
-  return repo.getNewText(languages: language.language);
+  return repo.getNewText(languages: language);
 }
 
 @Riverpod()
 class TypingTextViewModel extends _$TypingTextViewModel {
   @override
   Future<TextTyping> build() async {
-    final language = ref.watch(languageConfigViewModelProvider);
-    final text = await ref.watch(getTextProvider(language).future);
+    final language = await ref.watch(languageConfigViewModelProvider.future);
+    final text = await ref.watch(getTextProvider(language.current).future);
     return text.scramble();
   }
 

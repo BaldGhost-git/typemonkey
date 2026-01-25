@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -96,29 +98,38 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                                     child: Center(
                                       child: Consumer(
                                         builder: (context, ref, child) {
-                                          final language = ref.watch(
+                                          final langState = ref.watch(
                                             languageConfigViewModelProvider,
                                           );
-                                          return DropdownMenu(
+                                          return langState.when(
+                                            data: (LanguageConfig state) => DropdownMenu(
                                             textStyle: AppStyles.menusText,
-                                            initialSelection: language,
-                                            onSelected: (language) => languageVm
-                                                .setLanguage(language!),
-                                            dropdownMenuEntries: LanguageConfig
-                                                .values
+                                            initialSelection: state.current,
+                                            onSelected: (lang) => languageVm
+                                                .setLanguage(lang!),
+                                            dropdownMenuEntries: state
+                                                .options
                                                 .map(
                                                   (value) => DropdownMenuEntry(
                                                     value: value,
                                                     labelWidget: Text(
-                                                      value.name,
+                                                      value,
                                                       style:
                                                           AppStyles.menusText,
                                                     ),
-                                                    label: value.name,
+                                                    label: value,
                                                   ),
                                                 )
                                                 .toList(),
-                                          );
+                                          ), error: (Object error, StackTrace stackTrace) {
+                                            log(error.toString(), stackTrace: stackTrace);
+                                            return DropdownMenu(
+                                              enabled: false,
+                                              dropdownMenuEntries: [
+                                                DropdownMenuEntry(value: 'english', label: 'english')
+                                              ]
+                                            );
+                                          }, loading: () => const CircularProgressIndicator());
                                         },
                                       ),
                                     ),
