@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:typingapp/core/themes/sizes.dart';
-import 'package:typingapp/core/themes/themes.dart';
+import 'package:typemonkey/core/themes/sizes.dart';
+import 'package:typemonkey/core/themes/themes.dart';
 
 class CustomCaret extends StatefulWidget {
   const CustomCaret({super.key});

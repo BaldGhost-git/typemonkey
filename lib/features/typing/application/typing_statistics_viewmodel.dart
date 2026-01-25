@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:typingapp/features/typing/domain/typing_statistics.dart';
-import 'package:typingapp/features/typing/domain/word.dart';
+import 'package:typemonkey/features/typing/domain/typing_statistics.dart';
+import 'package:typemonkey/features/typing/domain/word.dart';
 
 part 'typing_statistics_viewmodel.g.dart';
 

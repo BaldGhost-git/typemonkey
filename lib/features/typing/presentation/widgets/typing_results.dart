@@ -1,10 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:typingapp/core/themes/sizes.dart';
-import 'package:typingapp/core/themes/styles.dart';
-import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
-import 'package:typingapp/features/typing/domain/typing_practice.dart';
+import 'package:typemonkey/core/themes/sizes.dart';
+import 'package:typemonkey/core/themes/styles.dart';
+import 'package:typemonkey/features/typing/application/typing_trainer_viewmodel.dart';
+import 'package:typemonkey/features/typing/domain/typing_practice.dart';
 
 class TypingResults extends StatelessWidget {
   const TypingResults({

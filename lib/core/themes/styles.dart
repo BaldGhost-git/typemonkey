@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:typingapp/core/themes/sizes.dart';
+import 'package:typemonkey/core/themes/sizes.dart';
 
 class AppStyles {
   static final TextStyle primaryFont = GoogleFonts.jetBrainsMono();

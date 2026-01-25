@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:typingapp/features/typing/domain/typing_practice.dart';
+import 'package:typemonkey/features/typing/domain/typing_practice.dart';
 
 void main() {
   group('Testing training states', () {

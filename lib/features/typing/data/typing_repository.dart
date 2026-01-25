@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:typingapp/features/typing/data/text_dto.dart';
-import 'package:typingapp/features/typing/domain/text.dart';
-import 'package:typingapp/core/config/dio_config.dart';
-import 'package:typingapp/features/typing/domain/typing_practice.dart';
+import 'package:typemonkey/features/typing/data/text_dto.dart';
+import 'package:typemonkey/features/typing/domain/text.dart';
+import 'package:typemonkey/core/config/dio_config.dart';
+import 'package:typemonkey/features/typing/domain/typing_practice.dart';
 
 part 'typing_repository.g.dart';
 
