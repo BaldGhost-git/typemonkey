@@ -1,5 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:typingapp/core/config/env.dart';
 import 'package:typingapp/features/typing/application/typing_statistics_viewmodel.dart';
 import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/data/typing_repository.dart';
@@ -9,7 +9,7 @@ part 'typing_text_viewmodel.g.dart';
 
 @Riverpod(keepAlive: true)
 Future<TextTyping> getText(Ref ref, String language) async {
-  final repo = ref.read(typingRepositoryProvider(Env.wordApi));
+  final repo = ref.read(typingRepositoryProvider(dotenv.get('WORD_API')));
   return repo.getNewText(languages: language);
 }
 

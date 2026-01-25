@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:typingapp/core/config/env.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:typingapp/core/themes/themes.dart';
 import 'package:typingapp/features/settings/application/settings_viewmodel.dart';
 import 'package:typingapp/features/typing/presentation/screens/typing_screen.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(ProviderScope(child: const MainApp()));
 }
 
@@ -23,7 +24,7 @@ class MainApp extends StatelessWidget {
                 ? AppThemes.colorSchemeDark
                 : AppThemes.colorScheme,
           ),
-          debugShowCheckedModeBanner: Env.env != 'production',
+          debugShowCheckedModeBanner: dotenv.get('ENV') != 'production',
           home: TypingScreen(),
         );
       },
