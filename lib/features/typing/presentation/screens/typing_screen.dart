@@ -94,66 +94,68 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                                           : '${textState.requireValue.currentWordIndex}/${trainerState.textLength}',
                                       style: AppStyles.primaryHeading2,
                                     ),
-                                  Expanded(
-                                    child: Center(
-                                      child: Consumer(
-                                        builder: (context, ref, child) {
-                                          final langState = ref.watch(
-                                            languageConfigViewModelProvider,
-                                          );
-                                          return langState.when(
-                                            data: (LanguageConfig state) =>
-                                                DropdownMenu(
-                                                  textStyle:
-                                                      AppStyles.menusText,
-                                                  initialSelection:
-                                                      state.current,
-                                                  onSelected: (lang) =>
-                                                      languageVm.setLanguage(
-                                                        lang!,
-                                                      ),
-                                                  dropdownMenuEntries: state
-                                                      .options
-                                                      .map(
-                                                        (value) =>
-                                                            DropdownMenuEntry(
-                                                              value: value,
-                                                              labelWidget: Text(
-                                                                value,
-                                                                style: AppStyles
-                                                                    .menusText,
-                                                              ),
-                                                              label: value,
+                                  if (!trainerState.isRunning)
+                                    Expanded(
+                                      child: Center(
+                                        child: Consumer(
+                                          builder: (context, ref, child) {
+                                            final langState = ref.watch(
+                                              languageConfigViewModelProvider,
+                                            );
+                                            return langState.when(
+                                              data: (LanguageConfig state) =>
+                                                  DropdownMenu(
+                                                    textStyle:
+                                                        AppStyles.menusText,
+                                                    initialSelection:
+                                                        state.current,
+                                                    onSelected: (lang) =>
+                                                        languageVm.setLanguage(
+                                                          lang!,
+                                                        ),
+                                                    dropdownMenuEntries: state
+                                                        .options
+                                                        .map(
+                                                          (
+                                                            value,
+                                                          ) => DropdownMenuEntry(
+                                                            value: value,
+                                                            labelWidget: Text(
+                                                              value,
+                                                              style: AppStyles
+                                                                  .menusText,
                                                             ),
-                                                      )
-                                                      .toList(),
-                                                ),
-                                            error:
-                                                (
-                                                  Object error,
-                                                  StackTrace stackTrace,
-                                                ) {
-                                                  log(
-                                                    error.toString(),
-                                                    stackTrace: stackTrace,
-                                                  );
-                                                  return DropdownMenu(
-                                                    enabled: false,
-                                                    dropdownMenuEntries: [
-                                                      DropdownMenuEntry(
-                                                        value: 'english',
-                                                        label: 'english',
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                            loading: () =>
-                                                const CircularProgressIndicator(),
-                                          );
-                                        },
+                                                            label: value,
+                                                          ),
+                                                        )
+                                                        .toList(),
+                                                  ),
+                                              error:
+                                                  (
+                                                    Object error,
+                                                    StackTrace stackTrace,
+                                                  ) {
+                                                    log(
+                                                      error.toString(),
+                                                      stackTrace: stackTrace,
+                                                    );
+                                                    return DropdownMenu(
+                                                      enabled: false,
+                                                      dropdownMenuEntries: [
+                                                        DropdownMenuEntry(
+                                                          value: 'english',
+                                                          label: 'english',
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                              loading: () =>
+                                                  const CircularProgressIndicator(),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
-                                  ),
                                 ],
                               ),
                               Gap(AppSizes.padBetweenWidgets),
@@ -175,9 +177,20 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                       ),
                     ],
                   )
-                : SizedBox(
-                    height: AppSizes.chartWidgetHeight,
-                    child: TypingResults(state: trainerState, vm: configVm),
+                : Consumer(
+                    builder: (context, ref, child) {
+                      final langState = ref.read(
+                        languageConfigViewModelProvider,
+                      );
+                      return SizedBox(
+                        height: AppSizes.chartWidgetHeight,
+                        child: TypingResults(
+                          state: trainerState,
+                          vm: configVm,
+                          language: langState.requireValue.current,
+                        ),
+                      );
+                    },
                   ),
           ),
         ),
