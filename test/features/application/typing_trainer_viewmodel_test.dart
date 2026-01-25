@@ -13,18 +13,15 @@ void main() {
   final defaultTextLength = TextConfig.twenty.textLength;
   final defaultDuration = TimeConfig.twenty.duration;
 
-  void simulateWordTest(ProviderContainer container) {
+  Future<void> simulateWordTest(ProviderContainer container) async {
     final textVm = container.read(typingTextViewModelProvider.notifier);
-    final currentText = container
-        .read(typingTextViewModelProvider)
-        .requireValue
-        .words
-        .map((e) => e.word)
-        .toList()
-        .join(' ');
+    final currentText = await container.read(
+      typingTextViewModelProvider.future,
+    );
+    final wordList = currentText.words.map((e) => e.word).toList().join(' ');
 
     // Simulate user typing
-    for (String char in currentText.split('')) {
+    for (String char in wordList.split('')) {
       if (char == ' ') {
         textVm.spacePressed();
         continue;
@@ -43,6 +40,9 @@ void main() {
         overrides: [
           getTextProvider.overrideWith(
             (ref, cfg) => TextTyping.fromString(testString),
+          ),
+          getLanguageOptsProvider.overrideWith(
+            (ref) => LanguageConfig(options: ['english'], current: 'english'),
           ),
         ],
       );
@@ -82,7 +82,7 @@ void main() {
       });
     });
 
-    test('Start training in word config', () {
+    test('Start training in word config', () async {
       // Arrange test config
       trainerVm.setTypeTest(TestType.word);
       trainerVm.setTypeConfig(testString.split(' ').length);
@@ -93,7 +93,7 @@ void main() {
       expect(state.isFinished, false);
 
       // Start test
-      simulateWordTest(container);
+      await simulateWordTest(container);
 
       // Final assert
       final finishedState = container.read(typingTrainerViewModelProvider);
@@ -109,7 +109,7 @@ void main() {
         trainerVm.startTest();
 
         // Arrange first test data
-        simulateWordTest(container);
+        await simulateWordTest(container);
 
         // Assert current training
         final finishedState = container.read(typingTrainerViewModelProvider);
@@ -118,7 +118,9 @@ void main() {
 
         trainerVm.resetTest();
 
-        final resettedTextState = await container.read(typingTextViewModelProvider.future);
+        final resettedTextState = await container.read(
+          typingTextViewModelProvider.future,
+        );
         final resettedTrainerState = container.read(
           typingTrainerViewModelProvider,
         );

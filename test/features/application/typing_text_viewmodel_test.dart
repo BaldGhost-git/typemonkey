@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
+import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
 import 'package:typingapp/features/typing/domain/text.dart';
+import 'package:typingapp/features/typing/domain/typing_practice.dart';
 import 'package:typingapp/features/typing/domain/word.dart';
 
 void main() {
@@ -16,6 +18,9 @@ void main() {
           getTextProvider.overrideWith(
             (ref, cfg) => TextTyping.fromString(testString),
           ),
+          getLanguageOptsProvider.overrideWith(
+            (ref) => LanguageConfig(options: ['english'], current: 'english'),
+          ),
         ],);
       state = container.listen(typingTextViewModelProvider, (_, _) {});
       textVm = container.read(typingTextViewModelProvider.notifier);
@@ -26,8 +31,8 @@ void main() {
       container.dispose();
     });
 
-    test('Assert default state', () {
-      final state = container.read(typingTextViewModelProvider).requireValue;
+    test('Assert default state',  () async {
+      final state = await container.read(typingTextViewModelProvider.future);
       final List<String> wordList = state.words.map((word) => word.word).toList();
       final testWordList = testString.split(' ');
       expect(state, isNotNull);
@@ -36,7 +41,8 @@ void main() {
 
     test('typed starts test and updates current word state.', () async {
 
-      final firstLetter = container.read(typingTextViewModelProvider).requireValue.currentWord.word[0];
+      final firstState = await container.read(typingTextViewModelProvider.future);
+      final firstLetter = firstState.currentWord.word[0];
 
       textVm.typed(firstLetter);
 
@@ -48,7 +54,8 @@ void main() {
 
     test('spacePressed moves to next word.', () async {
 
-      final firstWord = container.read(typingTextViewModelProvider).requireValue.currentWord;
+      final state = await container.read(typingTextViewModelProvider.future);
+      final firstWord = state.currentWord;
 
       for (var char in firstWord.word.split('')) {
         textVm.typed(char);
@@ -61,7 +68,8 @@ void main() {
 
     test('backspacePressed deletes previous character.', () async {
 
-      final firstWord = container.read(typingTextViewModelProvider).requireValue.currentWord;
+      final state = await container.read(typingTextViewModelProvider.future);
+      final firstWord = state.currentWord;
 
       textVm.typed(firstWord.word[0]);
       textVm.backspacePressed();
@@ -72,7 +80,8 @@ void main() {
 
     test('backspacePressed disable jumping to previous word if previous word is correct.', () async {
 
-      final firstWord = container.read(typingTextViewModelProvider).requireValue.currentWord;
+      final state = await container.read(typingTextViewModelProvider.future);
+      final firstWord = state.currentWord;
 
       for (var char in firstWord.word.split('')) {
         textVm.typed(char);
@@ -85,6 +94,8 @@ void main() {
     });
 
     test('backspacePressed allows jumping to previous word if previous word is incorrect.', () async {
+      // Initialize state
+      await container.read(typingTextViewModelProvider.future);
 
       textVm.spacePressed();
       final firstState = container.read(typingTextViewModelProvider).requireValue;
