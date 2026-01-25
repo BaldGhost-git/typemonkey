@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_config.g.dart';
@@ -14,7 +16,9 @@ Dio dioConfig(Ref ref, String url) {
     ),
   );
 
-  dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
+  if (dotenv.get("ENV") != 'production' || !kDebugMode) {
+    dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
+  }
 
   return dio;
 }
