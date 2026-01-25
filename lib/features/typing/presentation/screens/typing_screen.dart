@@ -102,34 +102,54 @@ class _TypingScreenState extends ConsumerState<TypingScreen> {
                                             languageConfigViewModelProvider,
                                           );
                                           return langState.when(
-                                            data: (LanguageConfig state) => DropdownMenu(
-                                            textStyle: AppStyles.menusText,
-                                            initialSelection: state.current,
-                                            onSelected: (lang) => languageVm
-                                                .setLanguage(lang!),
-                                            dropdownMenuEntries: state
-                                                .options
-                                                .map(
-                                                  (value) => DropdownMenuEntry(
-                                                    value: value,
-                                                    labelWidget: Text(
-                                                      value,
-                                                      style:
-                                                          AppStyles.menusText,
-                                                    ),
-                                                    label: value,
-                                                  ),
-                                                )
-                                                .toList(),
-                                          ), error: (Object error, StackTrace stackTrace) {
-                                            log(error.toString(), stackTrace: stackTrace);
-                                            return DropdownMenu(
-                                              enabled: false,
-                                              dropdownMenuEntries: [
-                                                DropdownMenuEntry(value: 'english', label: 'english')
-                                              ]
-                                            );
-                                          }, loading: () => const CircularProgressIndicator());
+                                            data: (LanguageConfig state) =>
+                                                DropdownMenu(
+                                                  textStyle:
+                                                      AppStyles.menusText,
+                                                  initialSelection:
+                                                      state.current,
+                                                  onSelected: (lang) =>
+                                                      languageVm.setLanguage(
+                                                        lang!,
+                                                      ),
+                                                  dropdownMenuEntries: state
+                                                      .options
+                                                      .map(
+                                                        (value) =>
+                                                            DropdownMenuEntry(
+                                                              value: value,
+                                                              labelWidget: Text(
+                                                                value,
+                                                                style: AppStyles
+                                                                    .menusText,
+                                                              ),
+                                                              label: value,
+                                                            ),
+                                                      )
+                                                      .toList(),
+                                                ),
+                                            error:
+                                                (
+                                                  Object error,
+                                                  StackTrace stackTrace,
+                                                ) {
+                                                  log(
+                                                    error.toString(),
+                                                    stackTrace: stackTrace,
+                                                  );
+                                                  return DropdownMenu(
+                                                    enabled: false,
+                                                    dropdownMenuEntries: [
+                                                      DropdownMenuEntry(
+                                                        value: 'english',
+                                                        label: 'english',
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                            loading: () =>
+                                                const CircularProgressIndicator(),
+                                          );
                                         },
                                       ),
                                     ),

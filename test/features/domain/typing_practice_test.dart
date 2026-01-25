@@ -16,7 +16,7 @@ void main() {
       // Assert
       expect(newState.isRunning, true);
       expect(newState.isFinished, false);
-    }); 
+    });
 
     test('Start typing practice', () {
       // Act

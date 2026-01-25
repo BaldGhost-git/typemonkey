@@ -92,7 +92,8 @@ class TypingTrainerViewModel extends _$TypingTrainerViewModel {
       if (_shouldStopTimeTest()) {
         state = state.stop();
         _timer!.cancel();
-      };
+      }
+      ;
     });
   }
 
