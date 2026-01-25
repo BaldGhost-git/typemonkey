@@ -1,6 +1,6 @@
 # TypeMonkey
 
-Yet another typing app built with Flutter and Riverpod, available on Desktop (Linux / Windows).
+Yet another typing app built with Flutter and Riverpod, available on Desktop (Linux / Windows) and [Web](https://typemonkey-26375814418.asia-southeast2.run.app/)!
 
 ## Features
 
@@ -37,10 +37,18 @@ dart run build_runner build
 
 Run the app (choose one target):
 
+**Try in development**
+
 ```bash
 flutter run -d windows     # Windows desktop
 flutter run -d linux       # Linux desktop
-flutter run                # use default device
+flutter run -d chrome      # Web 
+```
+
+**Or run it with docker!**
+```bash
+docker build .
+docker run -p 8080:8080 -e PORT=8080 -d <YOUR-IMAGE-NAME-AND-TAG>
 ```
 
 Enjoy!
@@ -63,7 +71,7 @@ flutter test
 
 ## Notes
 
-- The app fetches wordlists from a configurable base URL (see `typing_repository.dart` and `sample.env`).
+- The app fetches wordlists from a configurable base URL (see `sample.env`).
   - You can change the base URL to any other wordlist APIs, or use this [thin API companion](https://github.com/BaldGhost-git/typemonkey_api)
   - Currently, this app is able to use MonkeyType official wordlist API, or any other JSON API that returns `words` variable
 - Generated files (`*.g.dart`, `*.freezed.dart`) are produced via `build_runner` and should not be edited by hand.
