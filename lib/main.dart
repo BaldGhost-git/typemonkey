@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:typingapp/core/themes/themes.dart';
-import 'package:typingapp/features/settings/application/settings_viewmodel.dart';
-import 'package:typingapp/features/typing/presentation/screens/typing_screen.dart';
+import 'package:typemonkey/core/themes/themes.dart';
+import 'package:typemonkey/features/settings/application/settings_viewmodel.dart';
+import 'package:typemonkey/features/typing/presentation/screens/typing_screen.dart';
 
 void main() async {
   await dotenv.load();

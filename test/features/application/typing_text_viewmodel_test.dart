@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
-import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
-import 'package:typingapp/features/typing/domain/text.dart';
-import 'package:typingapp/features/typing/domain/typing_practice.dart';
-import 'package:typingapp/features/typing/domain/word.dart';
+import 'package:typemonkey/features/typing/application/typing_text_viewmodel.dart';
+import 'package:typemonkey/features/typing/application/typing_trainer_viewmodel.dart';
+import 'package:typemonkey/features/typing/domain/text.dart';
+import 'package:typemonkey/features/typing/domain/typing_practice.dart';
+import 'package:typemonkey/features/typing/domain/word.dart';
 
 void main() {
   final testString = 'hello world';

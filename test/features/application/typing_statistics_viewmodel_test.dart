@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:typingapp/features/typing/application/typing_statistics_viewmodel.dart';
-import 'package:typingapp/features/typing/domain/word.dart';
+import 'package:typemonkey/features/typing/application/typing_statistics_viewmodel.dart';
+import 'package:typemonkey/features/typing/domain/word.dart';
 
 void main() {
   group('Test typing statistics viewmodel.', () {

@@ -1,9 +1,9 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:typingapp/features/typing/application/typing_statistics_viewmodel.dart';
-import 'package:typingapp/features/typing/application/typing_trainer_viewmodel.dart';
-import 'package:typingapp/features/typing/data/typing_repository.dart';
-import 'package:typingapp/features/typing/domain/text.dart';
+import 'package:typemonkey/features/typing/application/typing_statistics_viewmodel.dart';
+import 'package:typemonkey/features/typing/application/typing_trainer_viewmodel.dart';
+import 'package:typemonkey/features/typing/data/typing_repository.dart';
+import 'package:typemonkey/features/typing/domain/text.dart';
 
 part 'typing_text_viewmodel.g.dart';
 

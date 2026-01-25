@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:typingapp/features/settings/domain/settings.dart';
+import 'package:typemonkey/features/settings/domain/settings.dart';
 
 part 'settings_viewmodel.g.dart';
 

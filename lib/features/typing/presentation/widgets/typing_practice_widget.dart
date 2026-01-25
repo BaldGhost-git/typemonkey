@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:typingapp/core/themes/sizes.dart';
-import 'package:typingapp/core/themes/styles.dart';
-import 'package:typingapp/core/themes/themes.dart';
-import 'package:typingapp/features/typing/application/typing_text_viewmodel.dart';
-import 'package:typingapp/features/typing/domain/text.dart';
-import 'package:typingapp/features/typing/domain/typing_practice.dart';
-import 'package:typingapp/features/typing/domain/word.dart';
-import 'package:typingapp/features/typing/presentation/widgets/custom_caret.dart';
+import 'package:typemonkey/core/themes/sizes.dart';
+import 'package:typemonkey/core/themes/styles.dart';
+import 'package:typemonkey/core/themes/themes.dart';
+import 'package:typemonkey/features/typing/application/typing_text_viewmodel.dart';
+import 'package:typemonkey/features/typing/domain/text.dart';
+import 'package:typemonkey/features/typing/domain/typing_practice.dart';
+import 'package:typemonkey/features/typing/domain/word.dart';
+import 'package:typemonkey/features/typing/presentation/widgets/custom_caret.dart';
 
 class TypingPractice extends StatefulWidget {
   final TextTyping textState;

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:typingapp/features/typing/domain/word.dart';
+import 'package:typemonkey/features/typing/domain/word.dart';
 
 part 'text.freezed.dart';
 
