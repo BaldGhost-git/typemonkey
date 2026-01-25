@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_and_release:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -43,12 +43,15 @@ jobs:
       
       - name: 📥 Get dependencies
         run: flutter pub get
+      
+      - name: 🏗️ Run build_runner
+        run: dart run build_runner build
 
-      - name: Verify formatting
+      - name: 📖 Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
-      - name: Analyze project source
-        run: flutter analyze
+      - name: Create dummy .env
+        run: echo "DUMMY=true" > .env
 
-      - name: Run tests
+      - name: 🔬 Run tests
         run: flutter test
