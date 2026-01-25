@@ -11,7 +11,11 @@ class TypingStatisticsViewModel extends _$TypingStatisticsViewModel {
 
   @override
   TypingStatistics build() {
-    return TypingStatistics(correctChars: 0, incorrectChars: 0, elapsedTimeInSeconds: 0);
+    return TypingStatistics(
+      correctChars: 0,
+      incorrectChars: 0,
+      elapsedTimeInSeconds: 0,
+    );
   }
 
   void typed(CharState charState) {
@@ -20,15 +24,19 @@ class TypingStatisticsViewModel extends _$TypingStatisticsViewModel {
       case CharState.correct:
         // if (countState[_currIndex]) return;
         state = state.copyWith(correctChars: state.correctChars + 1);
-      case CharState.incorrect: 
+      case CharState.incorrect:
         state = state.copyWith(incorrectChars: state.incorrectChars + 1);
-      default: throw UnimplementedError();
+      default:
+        throw UnimplementedError();
     }
     // _currIndex++;
   }
 
   TypingStatistics snapshot(double elapsedTime, DateTime timestamp) {
-    final snapshot = state.copyWith(elapsedTimeInSeconds: elapsedTime, timestamp: timestamp);
+    final snapshot = state.copyWith(
+      elapsedTimeInSeconds: elapsedTime,
+      timestamp: timestamp,
+    );
     return snapshot;
   }
 

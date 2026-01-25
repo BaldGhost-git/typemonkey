@@ -118,7 +118,7 @@ void main() {
       final maxScramble = 3;
       var i = 0;
       final text = TextTyping.fromString(str);
-      var scrambledText = text.scramble(); 
+      var scrambledText = text.scramble();
 
       while (scrambledText == text && i < maxScramble) {
         scrambledText = scrambledText.scramble();
